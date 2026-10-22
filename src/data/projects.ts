@@ -49,7 +49,7 @@ export const projects: Project[] = [
       { k: "Platform", v: "iOS & Android" },
       { k: "Status", v: "Shipped, iterating" },
     ],
-    cover: "rex-insurance-preview.png",
+    cover: "rex-insurance-cover.webp",
     sections: [
       {
         label: "Overview",
