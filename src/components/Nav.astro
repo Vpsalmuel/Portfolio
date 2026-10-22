@@ -44,6 +44,12 @@ const base = home ? "" : "/";
     document.querySelector('meta[name="theme-color"]')?.setAttribute("content", light ? "#f1efe9" : "#111110");
   };
   sync();
+
+  const nav = document.querySelector<HTMLElement>(".nav")!;
+  const onScroll = () => nav.classList.toggle("scrolled", scrollY > 24);
+  addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
   btn.addEventListener("click", () => {
     const next = root.dataset.theme === "light" ? "dark" : "light";
     root.dataset.theme = next;
@@ -55,19 +61,28 @@ const base = home ? "" : "/";
 </script>
 
 <style>
+  /* Fixed bar with a frosted background; it firms up once the page is scrolled */
   .nav {
     position: fixed;
     inset: 0 0 auto 0;
     z-index: 50;
-    mix-blend-mode: difference;
-    color: #e8e6df;
+    color: var(--ink);
+    background: color-mix(in srgb, var(--bg) 72%, transparent);
+    -webkit-backdrop-filter: blur(14px) saturate(1.2);
+    backdrop-filter: blur(14px) saturate(1.2);
+    border-bottom: 1px solid transparent;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+  }
+  .nav.scrolled {
+    background: color-mix(in srgb, var(--bg) 90%, transparent);
+    border-bottom-color: var(--line);
   }
   .nav-in {
     display: flex;
     align-items: center;
     gap: 24px;
-    padding-top: 18px;
-    padding-bottom: 18px;
+    padding-top: 14px;
+    padding-bottom: 14px;
   }
   .brand {
     display: flex;
