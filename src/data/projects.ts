@@ -208,7 +208,7 @@ export const projects: Project[] = [
       { k: "Status", v: "Live at losode.com" },
     ],
     live: "https://www.losode.com",
-    cover: "losode-desktop.png",
+    cover: "losode-cover.webp",
     sections: [
       {
         label: "Overview",
