@@ -183,6 +183,7 @@ import { img } from "../lib/images";
 
       <div class="about-grid">
         <div class="about-body rv" style="--d:.1s">
+          <p class="label">(About me)</p>
           {about.body.map((p) => <p>{p}</p>)}
           <div>
             <p class="label">(Services)</p>
@@ -633,8 +634,10 @@ import { img } from "../lib/images";
     row-gap: 40px;
     margin-top: clamp(56px, 8vw, 120px);
   }
+  /* two balanced columns across the full width, both headed by a label */
   .about-body {
-    grid-column: 4 / 8;
+    grid-column: 1 / 7;
+    max-width: 62ch;
     display: grid;
     gap: 18px;
     align-content: start;
@@ -654,7 +657,7 @@ import { img } from "../lib/images";
     font-size: 14px;
   }
   .exp {
-    grid-column: 9 / -1;
+    grid-column: 8 / -1;
     display: grid;
     gap: 16px;
     align-content: start;
@@ -753,12 +756,6 @@ import { img } from "../lib/images";
     .steps {
       grid-template-columns: repeat(2, 1fr);
       row-gap: 40px;
-    }
-    .about-body {
-      grid-column: 1 / 7;
-    }
-    .exp {
-      grid-column: 8 / -1;
     }
     .stats {
       grid-template-columns: repeat(2, 1fr);
