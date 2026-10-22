@@ -350,7 +350,7 @@ export const projects: Project[] = [
       { k: "Platform", v: "iOS & Android" },
       { k: "Tools", v: "Figma, FigJam, Maze" },
     ],
-    cover: "divvy-preview-1440x768.jpg",
+    cover: "divvy-preview.png",
     sections: [
       {
         label: "Overview",
