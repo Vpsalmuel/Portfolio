@@ -22,8 +22,8 @@ const pad = (n: number) => String(n).padStart(2, "0");
       <div class="cs-grid">
         <div class="cs-title">
           <p class="label">{p.category}</p>
-          <h1>{p.title}</h1>
-          <p class="cs-lead">{p.headline}</p>
+          <h1 data-split>{p.title}</h1>
+          <p class="cs-lead" data-split style="--d:.25s">{p.headline}</p>
         </div>
         <dl class="cs-meta">
           {
@@ -55,7 +55,7 @@ const pad = (n: number) => String(n).padStart(2, "0");
     </header>
 
     <div class="wrap">
-      <div class="cover frame">
+      <div class="cover frame wipe">
         <Image
           src={img(p.cover)}
           alt={`${p.title} cover`}
@@ -75,7 +75,7 @@ const pad = (n: number) => String(n).padStart(2, "0");
             </span>
           </div>
           <div class="sec-body">
-            <h2 class="rv">{s.title}</h2>
+            <h2 data-split>{s.title}</h2>
             {s.blocks.map((b) => (
               <div class="block rv">
                 {b.type === "text" && b.body.map((t) => <p class="prose">{t}</p>)}
@@ -131,7 +131,7 @@ const pad = (n: number) => String(n).padStart(2, "0");
                   <div class={`imgs imgs-${b.layout}`}>
                     {b.items.map((m) => (
                       <figure>
-                        <div class="frame">
+                        <div class="frame wipe">
                           <Image
                             src={img(m.image)}
                             alt={m.caption ?? p.title}

@@ -238,13 +238,66 @@ p {
 /* ---------- Reveal motion ---------- */
 .js .rv {
   opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
+  transform: translateY(32px);
+  transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
   transition-delay: var(--d, 0s);
 }
 .js .rv.in {
   opacity: 1;
   transform: none;
+}
+
+/* Word-by-word text reveal ([data-split] is split into .w > .wi by motion.ts) */
+.w {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  /* room for descenders so g/p/y aren't clipped */
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+  /* inline-blocks inherit text-indent, which would shift and clip each word */
+  text-indent: 0;
+}
+.js [data-split] .wi {
+  display: inline-block;
+  transform: translateY(110%);
+  transition: transform 1s var(--ease);
+  transition-delay: calc(var(--d, 0s) + var(--i) * 0.035s);
+}
+.js [data-split].in .wi {
+  transform: none;
+}
+
+/* Image wipe: frames open upward while the picture settles from a slight zoom */
+.js .wipe {
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path 1.2s var(--ease);
+  transition-delay: var(--d, 0s);
+}
+.js .wipe img {
+  transform: scale(1.18);
+  transition: transform 1.6s var(--ease);
+  transition-delay: var(--d, 0s);
+}
+.js .in .wipe,
+.js .wipe.in {
+  clip-path: inset(0 0 0 0);
+}
+.js .in .wipe img,
+.js .wipe.in img {
+  transform: none;
+}
+
+/* Scroll progress bar */
+.progress {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  z-index: 60;
+  pointer-events: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -257,8 +310,15 @@ p {
     animation: none !important;
     transition: none !important;
   }
-  .js .rv {
+  .js .rv,
+  .js [data-split] .wi,
+  .js .wipe,
+  .js .wipe img {
     opacity: 1;
     transform: none;
+    clip-path: none;
+  }
+  .progress {
+    display: none;
   }
 }
