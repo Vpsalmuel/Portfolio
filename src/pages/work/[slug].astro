@@ -1,0 +1,467 @@
+---
+import { Image } from "astro:assets";
+import Base from "../../layouts/Base.astro";
+import Arrow from "../../components/Arrow.astro";
+import { projects, type Project } from "../../data/projects";
+import { img } from "../../lib/images";
+
+export function getStaticPaths() {
+  return projects.map((p) => ({ params: { slug: p.slug }, props: { project: p } }));
+}
+
+const { project: p } = Astro.props as { project: Project };
+const i = projects.findIndex((x) => x.slug === p.slug);
+const next = projects[(i + 1) % projects.length];
+const pad = (n: number) => String(n).padStart(2, "0");
+---
+
+<Base title={`${p.title} — Samuel Daniel`} description={p.summary}>
+  <article>
+    <header class="wrap cs-head">
+      <a class="back label" href="/#work">← Back to work</a>
+      <div class="cs-grid">
+        <div class="cs-title">
+          <p class="label">{p.category}</p>
+          <h1>{p.title}</h1>
+          <p class="cs-lead">{p.headline}</p>
+        </div>
+        <dl class="cs-meta">
+          {
+            p.meta.map((m) => (
+              <div>
+                <dt class="label">{m.k}</dt>
+                <dd>{m.v}</dd>
+              </div>
+            ))
+          }
+          {
+            p.live && (
+              <div>
+                <dt class="label">Live</dt>
+                <dd>
+                  <a class="link-u" href={p.live} target="_blank" rel="noopener">
+                    {p.live.replace(/^https?:\/\/(www\.)?/, "")} ↗
+                  </a>
+                </dd>
+              </div>
+            )
+          }
+        </dl>
+      </div>
+      <div class="tags">
+        {p.tags.map((t) => <span class="pill">{t}</span>)}
+        <hr class="rule" />
+      </div>
+    </header>
+
+    <div class="wrap">
+      <div class="cover frame">
+        <Image
+          src={img(p.cover)}
+          alt={`${p.title} cover`}
+          widths={[800, 1400, 2000]}
+          sizes="(max-width: 1440px) 96vw, 1380px"
+          loading="eager"
+        />
+      </div>
+    </div>
+
+    {
+      p.sections.map((s, si) => (
+        <section class="wrap cs-sec">
+          <div class="sec-label rv">
+            <span class="label">
+              {pad(si + 1)} · {s.label}
+            </span>
+          </div>
+          <div class="sec-body">
+            <h2 class="rv">{s.title}</h2>
+            {s.blocks.map((b) => (
+              <div class="block rv">
+                {b.type === "text" && b.body.map((t) => <p class="prose">{t}</p>)}
+
+                {b.type === "goals" && (
+                  <ol class="goals">
+                    {b.items.map((g, gi) => (
+                      <li>
+                        <span class="label">{pad(gi + 1)}</span>
+                        <span>{g}</span>
+                      </li>
+                    ))}
+                  </ol>
+                )}
+
+                {b.type === "cards" && (
+                  <div class="cards">
+                    {b.items.map((c, ci) => (
+                      <div class="card">
+                        <span class="label">{pad(ci + 1)}</span>
+                        <h3>{c.title}</h3>
+                        <p class="muted">{c.body}</p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {b.type === "stats" && (
+                  <div class="stats">
+                    {b.items.map((st) => (
+                      <div>
+                        <span class="stat-v">{st.value}</span>
+                        <span class="muted">{st.label}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {b.type === "palette" && (
+                  <div class="palette">
+                    {b.items.map((c) => (
+                      <div>
+                        <span class="swatch" style={`background:${c.hex}`} />
+                        <strong>{c.name}</strong>
+                        <span class="label">{c.hex}</span>
+                        <span class="muted small">{c.usage}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {b.type === "images" && (
+                  <div class={`imgs imgs-${b.layout}`}>
+                    {b.items.map((m) => (
+                      <figure>
+                        <div class="frame">
+                          <Image
+                            src={img(m.image)}
+                            alt={m.caption ?? p.title}
+                            widths={b.layout === "phones" ? [300, 600] : [800, 1400, 2000]}
+                            sizes={b.layout === "phones" ? "(max-width: 760px) 45vw, 20vw" : b.layout === "pair" ? "(max-width: 760px) 92vw, 40vw" : "(max-width: 1440px) 75vw, 1050px"}
+                          />
+                        </div>
+                        {m.caption && <figcaption class="muted">{m.caption}</figcaption>}
+                      </figure>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </section>
+      ))
+    }
+
+    <nav class="wrap next" aria-label="Next case study">
+      <p class="label">(Next case study)</p>
+      <a href={`/work/${next.slug}/`}>
+        <span>{next.title}</span>
+        <Arrow />
+      </a>
+    </nav>
+  </article>
+</Base>
+
+<style>
+  .cs-head {
+    padding-top: 120px;
+  }
+  .back {
+    text-decoration: none;
+    display: inline-block;
+    margin-bottom: 40px;
+    transition: color 0.2s;
+  }
+  .back:hover {
+    color: var(--accent);
+  }
+  .cs-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    column-gap: var(--gutter);
+    row-gap: 40px;
+  }
+  .cs-title {
+    grid-column: 1 / 8;
+    display: grid;
+    gap: 20px;
+    align-content: start;
+  }
+  h1 {
+    font-size: clamp(56px, 9vw, 136px);
+    line-height: 0.88;
+    letter-spacing: -0.055em;
+  }
+  .cs-lead {
+    font: 500 clamp(19px, 1.8vw, 24px) / 1.35 var(--font-display);
+    letter-spacing: -0.015em;
+    color: var(--muted);
+    max-width: 40ch;
+  }
+  .cs-meta {
+    grid-column: 9 / -1;
+    margin: 0;
+    display: grid;
+    align-content: start;
+  }
+  .cs-meta div {
+    border-top: 1px solid var(--line);
+    padding: 10px 0 14px;
+    display: grid;
+    gap: 4px;
+  }
+  .cs-meta dd {
+    margin: 0;
+  }
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin: 56px 0 24px;
+  }
+  .tags .rule {
+    flex: 1;
+    min-width: 40px;
+  }
+  .cover {
+    aspect-ratio: 16 / 9;
+  }
+  .cover img {
+    object-position: top center;
+  }
+
+  /* Sections */
+  .cs-sec {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    column-gap: var(--gutter);
+    padding-top: clamp(64px, 9vw, 120px);
+  }
+  .sec-label {
+    grid-column: 1 / 4;
+    padding-top: 8px;
+  }
+  .sec-label .label {
+    position: sticky;
+    top: 90px;
+  }
+  .sec-body {
+    grid-column: 4 / -1;
+    display: grid;
+    gap: 32px;
+    min-width: 0;
+  }
+  .sec-body h2 {
+    font-size: clamp(32px, 4vw, 56px);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    max-width: 18ch;
+  }
+  .block {
+    display: grid;
+    gap: 16px;
+    min-width: 0;
+  }
+  .prose {
+    max-width: 62ch;
+    font-size: 18px;
+    line-height: 1.65;
+  }
+
+  .goals {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-width: 760px;
+  }
+  .goals li {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 12px;
+    padding: 16px 0;
+    border-top: 1px solid var(--line);
+    font-size: 18px;
+  }
+  .goals li:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+  .goals .label {
+    padding-top: 5px;
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  .card {
+    background: var(--bg);
+    padding: 24px;
+    display: grid;
+    gap: 10px;
+    align-content: start;
+  }
+  .card h3 {
+    font-size: 22px;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+  }
+  .card p {
+    font-size: 15px;
+    line-height: 1.55;
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--gutter);
+  }
+  .stats div {
+    border-top: 1px solid var(--line);
+    padding-top: 16px;
+    display: grid;
+    gap: 10px;
+    align-content: start;
+    font-size: 15px;
+    line-height: 1.45;
+  }
+  .stat-v {
+    font: 600 clamp(40px, 5vw, 72px) / 0.9 var(--font-display);
+    letter-spacing: -0.05em;
+    color: var(--accent);
+  }
+
+  .palette {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+  }
+  .palette div {
+    display: grid;
+    gap: 4px;
+    align-content: start;
+    font-size: 15px;
+  }
+  .swatch {
+    display: block;
+    aspect-ratio: 1;
+    border-radius: 4px;
+    border: 1px solid var(--line);
+    margin-bottom: 8px;
+  }
+  .small {
+    font-size: 13px;
+  }
+
+  .imgs {
+    display: grid;
+    gap: var(--gutter);
+  }
+  .imgs figure {
+    margin: 0;
+    display: grid;
+    gap: 10px;
+    align-content: start;
+  }
+  .imgs figcaption {
+    font-size: 14px;
+    line-height: 1.45;
+  }
+  .imgs-phones {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .imgs-phones .frame {
+    aspect-ratio: 9 / 19;
+    padding: 0;
+  }
+  .imgs-phones .frame img {
+    object-fit: cover;
+    object-position: top center;
+  }
+  .imgs-pair {
+    grid-template-columns: 1fr 1fr;
+  }
+  .imgs-pair .frame {
+    aspect-ratio: 2 / 1;
+  }
+  .imgs-pair .frame img {
+    object-position: top center;
+  }
+  .imgs-wide .frame img {
+    height: auto;
+  }
+
+  /* Next */
+  .next {
+    padding-top: clamp(96px, 12vw, 180px);
+    padding-bottom: clamp(64px, 8vw, 120px);
+  }
+  .next a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2em;
+    margin-top: 12px;
+    font: 600 clamp(56px, 11vw, 168px) / 0.9 var(--font-display);
+    letter-spacing: -0.055em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: color 0.25s;
+  }
+  .next a :global(svg) {
+    width: 0.6em;
+    height: 0.6em;
+    transition: transform 0.4s var(--ease);
+  }
+  .next a:hover {
+    color: var(--accent);
+  }
+  .next a:hover :global(svg) {
+    transform: translate(6px, -6px);
+  }
+
+  @media (max-width: 1000px) {
+    .cs-title {
+      grid-column: 1 / -1;
+    }
+    .cs-meta {
+      grid-column: 1 / -1;
+      grid-template-columns: repeat(3, 1fr);
+      column-gap: var(--gutter);
+    }
+    .sec-label,
+    .sec-body {
+      grid-column: 1 / -1;
+    }
+    .sec-label {
+      margin-bottom: 16px;
+    }
+    .palette {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  @media (max-width: 760px) {
+    .cs-head {
+      padding-top: 96px;
+    }
+    .cs-meta {
+      grid-template-columns: 1fr 1fr;
+    }
+    .cards,
+    .stats,
+    .imgs-pair {
+      grid-template-columns: 1fr;
+    }
+    .imgs-phones {
+      grid-template-columns: 1fr 1fr;
+    }
+    .cover {
+      aspect-ratio: 4 / 3;
+    }
+    .prose,
+    .goals li {
+      font-size: 17px;
+    }
+  }
+</style>

@@ -1,0 +1,813 @@
+---
+import { Image } from "astro:assets";
+import Base from "../layouts/Base.astro";
+import Arrow from "../components/Arrow.astro";
+import { profile, collaborators, stats, about, experience, services, process, gallery } from "../data/site";
+import { projects } from "../data/projects";
+import { img } from "../lib/images";
+---
+
+<Base
+  title="Samuel Daniel — Product Designer, Lagos"
+  description="Samuel Kufre Daniel is a product designer in Lagos designing insurance, fintech and commerce products: Rex Insurance, Losode, Divvy."
+>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <h1 class="giant name" aria-label={`${profile.firstName} ${profile.lastName}`}>
+        <span class="line"><span>{profile.firstName}</span></span>
+        <span class="line"><span>{profile.lastName}</span></span>
+      </h1>
+
+      <div class="portrait">
+        <Image
+          src={img("hero-portrait.png")}
+          alt="Black and white portrait of Samuel Daniel"
+          widths={[480, 760, 1000]}
+          sizes="(max-width: 760px) 70vw, 34vw"
+          loading="eager"
+          fetchpriority="high"
+        />
+        <span class="tag-block" aria-hidden="true"></span>
+      </div>
+
+      <div class="meta-a">
+        <p class="label label-ink">{profile.location}</p>
+        <p class="label">(Product designer)</p>
+      </div>
+
+      <div class="hero-foot">
+        <p class="intro">{profile.intro}</p>
+        <div class="cta">
+          <span class="pill"><span class="dot"></span>{profile.availability}</span>
+          <div class="cta-row">
+            <a class="btn btn-solid" href="#contact">Get in touch <Arrow /></a>
+            <a class="btn" href="#work">View work</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Worked with -->
+  <section class="brands" aria-label="Companies I've worked with">
+    <div class="wrap brands-in">
+      <p class="label">(Worked with)</p>
+      <ul>
+        {collaborators.map((c) => <li>{c}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Work -->
+  <section id="work" class="work">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="giant rv">Works</h2>
+        <div class="sec-intro rv" style="--d:.1s">
+          <p class="lead">
+            Shipped products and one concept, chosen for the problems they solved. Insurance, commerce and fintech, on mobile and web.
+          </p>
+          <p class="label">(2022 — present)</p>
+        </div>
+      </div>
+
+      <ol class="rows">
+        {
+          projects.map((p, i) => (
+            <li class="row rv">
+              <a href={`/work/${p.slug}/`} class="row-link">
+                <div class="row-title">
+                  <span class="label">0{i + 1}</span>
+                  <h3>{p.title}</h3>
+                  <span class="label">{p.year}</span>
+                </div>
+                <div class="row-text">
+                  <p>{p.summary}</p>
+                  <div>
+                    <p class="label">(Scope)</p>
+                    <ul class="scope">
+                      {p.scope.map((s) => (
+                        <li>{s}</li>
+                      ))}
+                    </ul>
+                  </div>
+                  <p class="result">{p.highlight}</p>
+                  <span class="view">
+                    View case study <Arrow />
+                  </span>
+                </div>
+                <div class="row-img frame">
+                  <Image
+                    src={img(p.cover)}
+                    alt={`${p.title} preview`}
+                    widths={[600, 1000, 1400]}
+                    sizes="(max-width: 900px) 92vw, 55vw"
+                  />
+                </div>
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <!-- Gallery -->
+  <section class="gallery">
+    <div class="wrap">
+      <div class="gal-head rv">
+        <p class="label">(More screens)</p>
+        <h2 class="lead">A closer look at the pixels.</h2>
+        <a class="link-u" href={profile.links.behance} target="_blank" rel="noopener">Full projects on Behance ↗</a>
+      </div>
+      <div class="gal-grid">
+        {
+          gallery.map((g, i) => (
+            <figure class={`gal-item rv g${i}`} style={`--d:${(i % 3) * 0.08}s`}>
+              <div class="frame">
+                <Image src={img(g.image)} alt={g.title} widths={[500, 900]} sizes="(max-width: 700px) 92vw, 33vw" />
+              </div>
+              <figcaption>
+                <span>{g.title}</span>
+                <span class="label">{g.tag}</span>
+              </figcaption>
+            </figure>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Process -->
+  <section class="process">
+    <div class="wrap">
+      <div class="proc-head rv">
+        <p class="label">(How I work)</p>
+        <h2 class="lead">From a messy brief to something engineering can build, in four steps.</h2>
+      </div>
+      <ol class="steps">
+        {
+          process.map((s, i) => (
+            <li class="step rv" style={`--d:${i * 0.08}s`}>
+              <span class="label">(0{i + 1})</span>
+              <h3>{s.title}</h3>
+              <p class="muted">{s.body}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about" class="about">
+    <div class="wrap">
+      <p class="statement rv">{about.statement}</p>
+
+      <div class="about-grid">
+        <div class="about-img frame rv">
+          <Image src={img("about-portrait.png")} alt="Samuel Daniel" widths={[400, 700]} sizes="(max-width: 900px) 60vw, 25vw" />
+        </div>
+        <div class="about-body rv" style="--d:.1s">
+          {about.body.map((p) => <p>{p}</p>)}
+          <div>
+            <p class="label">(Services)</p>
+            <ul class="services">
+              {services.map((s) => <li>{s}</li>)}
+            </ul>
+          </div>
+        </div>
+        <div class="exp rv" style="--d:.2s">
+          <p class="label">(Experience)</p>
+          <ul>
+            {
+              experience.map((e) => (
+                <li>
+                  <div class="exp-top">
+                    <strong>{e.org}</strong>
+                    <span class="label">{e.dates}</span>
+                  </div>
+                  <span class="muted">{e.role}</span>
+                  {e.note && <p class="muted small">{e.note}</p>}
+                </li>
+              ))
+            }
+          </ul>
+          <a class="btn" href={profile.cv} target="_blank" rel="noopener">Download CV <Arrow /></a>
+        </div>
+      </div>
+
+      <ul class="stats">
+        {
+          stats.map((s, i) => (
+            <li class="rv" style={`--d:${i * 0.08}s`}>
+              <span class="stat-v">{s.value}</span>
+              <span class="label">{s.label}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="contact">
+    <div class="wrap">
+      <p class="label rv">(Contact)</p>
+      <h2 class="contact-h rv">
+        Ready to design products <span class="muted">that people trust?</span>
+      </h2>
+      <a class="mail rv" href={profile.links.email}>{profile.email}</a>
+      <div class="contact-row rv">
+        <a class="btn btn-solid" href={profile.links.whatsapp} target="_blank" rel="noopener">Chat on WhatsApp <Arrow /></a>
+        <a class="btn" href={profile.links.linkedin} target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn" href={profile.links.behance} target="_blank" rel="noopener">Behance</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* Hero */
+  .hero {
+    padding: 96px 0 56px;
+    min-height: min(100svh, 980px);
+    display: flex;
+    align-items: stretch;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: auto 1fr auto;
+    column-gap: var(--gutter);
+    position: relative;
+  }
+  .name {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    position: relative;
+    z-index: 2;
+    mix-blend-mode: difference;
+    color: #e8e6df;
+    pointer-events: none;
+  }
+  .line {
+    display: block;
+    overflow: hidden;
+  }
+  .line span {
+    display: block;
+    animation: rise 1s var(--ease) both;
+  }
+  .line:nth-child(2) span {
+    animation-delay: 0.08s;
+    padding-left: 0.6em;
+  }
+  @keyframes rise {
+    from {
+      transform: translateY(105%);
+    }
+  }
+  .portrait {
+    grid-column: 6 / 10;
+    grid-row: 1 / 3;
+    margin-top: clamp(40px, 7vw, 110px);
+    position: relative;
+    align-self: start;
+    animation: fade 1.2s 0.2s var(--ease) both;
+  }
+  .portrait img {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    filter: grayscale(1) contrast(1.05);
+  }
+  .tag-block {
+    position: absolute;
+    right: -14%;
+    top: 22%;
+    width: 30%;
+    aspect-ratio: 1;
+    background: var(--accent);
+    mix-blend-mode: multiply;
+    opacity: 0.9;
+  }
+  :global([data-theme="light"]) .tag-block {
+    mix-blend-mode: normal;
+    opacity: 1;
+  }
+  @keyframes fade {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+  }
+  .meta-a {
+    grid-column: 10 / -1;
+    grid-row: 2;
+    align-self: start;
+    margin-top: clamp(40px, 7vw, 110px);
+    display: grid;
+    gap: 4px;
+  }
+  .hero-foot {
+    grid-column: 1 / -1;
+    grid-row: 3;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 32px;
+    margin-top: 40px;
+  }
+  .intro {
+    max-width: 34ch;
+    font-size: 15px;
+    line-height: 1.5;
+    text-transform: uppercase;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+  }
+  .cta {
+    display: grid;
+    gap: 14px;
+    justify-items: end;
+  }
+  .cta-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  /* Brands */
+  .brands {
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .brands-in {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    padding-top: 22px;
+    padding-bottom: 22px;
+  }
+  .brands ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px clamp(24px, 5vw, 72px);
+    flex: 1;
+    justify-content: space-between;
+  }
+  .brands li {
+    font: 600 clamp(18px, 2vw, 26px) / 1 var(--font-display);
+    letter-spacing: -0.02em;
+    color: var(--muted);
+  }
+
+  /* Section heads */
+  .work,
+  .gallery,
+  .process,
+  .about,
+  .contact {
+    padding: clamp(80px, 11vw, 160px) 0;
+  }
+  .sec-head {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    column-gap: var(--gutter);
+    row-gap: 32px;
+    margin-bottom: clamp(48px, 7vw, 96px);
+  }
+  .sec-head h2 {
+    grid-column: 1 / -1;
+  }
+  .sec-intro {
+    grid-column: 6 / 11;
+    display: grid;
+    gap: 16px;
+  }
+
+  /* Work rows */
+  .rows {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .row {
+    border-top: 1px solid var(--line);
+  }
+  .row:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+  .row-link {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    column-gap: var(--gutter);
+    padding: 24px 0;
+    text-decoration: none;
+  }
+  .row-title {
+    grid-column: 1 / 3;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .row-title h3 {
+    font-size: clamp(22px, 2.2vw, 30px);
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+  }
+  .row-text {
+    grid-column: 3 / 6;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    font-size: 15px;
+    line-height: 1.5;
+    padding-right: 12px;
+  }
+  .scope {
+    list-style: none;
+    margin: 6px 0 0;
+    padding: 0;
+  }
+  .result {
+    font: 600 22px/1.1 var(--font-display);
+    letter-spacing: -0.02em;
+    color: var(--accent);
+  }
+  .view {
+    margin-top: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+  }
+  .view :global(svg) {
+    width: 15px;
+    height: 15px;
+    transition: transform 0.3s var(--ease);
+  }
+  .row-img {
+    grid-column: 6 / -1;
+    aspect-ratio: 16 / 10;
+  }
+  .row-img img {
+    transition: transform 0.9s var(--ease);
+  }
+  .row-link:hover .row-img img {
+    transform: scale(1.035);
+  }
+  .row-link:hover .view :global(svg) {
+    transform: translate(3px, -3px);
+  }
+  .row-link:hover h3 {
+    color: var(--accent);
+  }
+  .row-title h3 {
+    transition: color 0.25s;
+  }
+
+  /* Gallery */
+  .gallery {
+    padding-top: 0;
+  }
+  .gal-head {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    column-gap: var(--gutter);
+    align-items: end;
+    margin-bottom: 40px;
+    row-gap: 12px;
+  }
+  .gal-head .label {
+    grid-column: 1 / 4;
+  }
+  .gal-head h2 {
+    grid-column: 4 / 10;
+  }
+  .gal-head a {
+    grid-column: 10 / -1;
+    justify-self: end;
+    font-size: 15px;
+  }
+  .gal-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--gutter);
+  }
+  .gal-item {
+    margin: 0;
+  }
+  .gal-item .frame {
+    aspect-ratio: 4 / 3;
+  }
+  .gal-item img {
+    transition: transform 0.9s var(--ease);
+  }
+  .gal-item:hover img {
+    transform: scale(1.04);
+  }
+  .gal-item figcaption {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding-top: 12px;
+    font-size: 15px;
+  }
+  .g0 {
+    grid-column: span 2;
+  }
+  .g0 .frame {
+    aspect-ratio: auto;
+    height: calc(100% - 44px);
+  }
+
+  /* Process */
+  .process {
+    background: var(--surface);
+  }
+  .proc-head {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    column-gap: var(--gutter);
+    margin-bottom: 64px;
+  }
+  .proc-head .label {
+    grid-column: 1 / 4;
+  }
+  .proc-head h2 {
+    grid-column: 4 / 11;
+  }
+  .steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--gutter);
+  }
+  .step {
+    border-top: 1px solid var(--line);
+    padding-top: 20px;
+    display: grid;
+    gap: 14px;
+    align-content: start;
+  }
+  .step h3 {
+    font-size: clamp(22px, 2vw, 28px);
+  }
+  .step p {
+    font-size: 15px;
+    line-height: 1.55;
+  }
+
+  /* About */
+  .statement {
+    font: 500 clamp(30px, 4.4vw, 64px) / 1.05 var(--font-display);
+    letter-spacing: -0.035em;
+    max-width: 22ch;
+    margin-left: calc(100% / 12 * 3);
+    text-indent: calc(100% / 12 * 1.5);
+  }
+  .about-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    column-gap: var(--gutter);
+    row-gap: 40px;
+    margin-top: clamp(56px, 8vw, 120px);
+  }
+  .about-img {
+    grid-column: 1 / 4;
+    aspect-ratio: 3 / 4;
+    align-self: start;
+  }
+  .about-img img {
+    filter: grayscale(1);
+  }
+  .about-body {
+    grid-column: 4 / 8;
+    display: grid;
+    gap: 18px;
+    align-content: start;
+  }
+  .services {
+    list-style: none;
+    margin: 8px 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .services li {
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 6px 12px;
+    font-size: 14px;
+  }
+  .exp {
+    grid-column: 9 / -1;
+    display: grid;
+    gap: 16px;
+    align-content: start;
+    justify-items: start;
+  }
+  .exp ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+  }
+  .exp li {
+    border-top: 1px solid var(--line);
+    padding: 14px 0;
+    display: grid;
+    gap: 2px;
+  }
+  .exp-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    align-items: baseline;
+  }
+  .small {
+    font-size: 14px;
+    line-height: 1.45;
+    margin-top: 4px;
+  }
+  .stats {
+    list-style: none;
+    margin: clamp(56px, 8vw, 112px) 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--gutter);
+  }
+  .stats li {
+    border-top: 1px solid var(--line);
+    padding-top: 18px;
+    display: grid;
+    gap: 10px;
+  }
+  .stat-v {
+    font: 600 clamp(44px, 6vw, 88px) / 0.9 var(--font-display);
+    letter-spacing: -0.05em;
+  }
+
+  /* Contact */
+  .contact {
+    border-top: 1px solid var(--line);
+  }
+  .contact-h {
+    font-size: clamp(44px, 8.4vw, 132px);
+    line-height: 0.92;
+    letter-spacing: -0.05em;
+    max-width: 13ch;
+    margin: 20px 0 40px;
+  }
+  .mail {
+    display: inline-block;
+    font: 500 clamp(22px, 3.4vw, 48px) / 1.1 var(--font-display);
+    letter-spacing: -0.03em;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 8px;
+    text-decoration-color: var(--accent);
+    transition: color 0.2s, text-underline-offset 0.3s var(--ease);
+    word-break: break-all;
+  }
+  .mail:hover {
+    color: var(--accent);
+    text-underline-offset: 12px;
+  }
+  .contact-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 40px;
+  }
+
+  /* Tablet */
+  @media (max-width: 1000px) {
+    .row-title {
+      grid-column: 1 / -1;
+      flex-direction: row;
+      align-items: baseline;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+    .row-text {
+      grid-column: 1 / 6;
+    }
+    .row-img {
+      grid-column: 6 / -1;
+    }
+    .steps {
+      grid-template-columns: repeat(2, 1fr);
+      row-gap: 40px;
+    }
+    .about-img {
+      grid-column: 1 / 5;
+    }
+    .about-body {
+      grid-column: 5 / -1;
+    }
+    .exp {
+      grid-column: 5 / -1;
+    }
+    .stats {
+      grid-template-columns: repeat(2, 1fr);
+      row-gap: 32px;
+    }
+  }
+
+  /* Phone */
+  @media (max-width: 760px) {
+    .hero {
+      padding-top: 88px;
+      min-height: auto;
+    }
+    .portrait {
+      grid-column: 3 / -1;
+      grid-row: 2;
+      margin-top: -0.4em;
+    }
+    .meta-a {
+      grid-column: 1 / 3;
+      grid-row: 2;
+      align-self: end;
+      margin-top: 0;
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+    }
+    .tag-block {
+      right: -4%;
+    }
+    .hero-foot {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .cta {
+      justify-items: start;
+    }
+    .brands-in {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 14px;
+    }
+    .brands ul {
+      justify-content: flex-start;
+    }
+    .sec-intro,
+    .gal-head .label,
+    .gal-head h2,
+    .gal-head a,
+    .proc-head .label,
+    .proc-head h2 {
+      grid-column: 1 / -1;
+      justify-self: start;
+    }
+    .proc-head {
+      row-gap: 12px;
+    }
+    .row-text,
+    .row-img {
+      grid-column: 1 / -1;
+    }
+    .row-img {
+      order: -1;
+      margin-bottom: 20px;
+    }
+    .row-title {
+      order: -2;
+    }
+    .gal-grid {
+      grid-template-columns: 1fr;
+    }
+    .g0 {
+      grid-column: auto;
+    }
+    .g0 .frame {
+      aspect-ratio: 4 / 3;
+      height: auto;
+    }
+    .steps {
+      grid-template-columns: 1fr;
+    }
+    .statement {
+      margin-left: 0;
+      text-indent: 0;
+    }
+    .about-img {
+      grid-column: 1 / 9;
+    }
+    .about-body,
+    .exp {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

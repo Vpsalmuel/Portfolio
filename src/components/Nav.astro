@@ -1,0 +1,135 @@
+---
+import { profile } from "../data/site";
+const home = Astro.url.pathname === "/";
+const base = home ? "" : "/";
+---
+
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="/" aria-label="Samuel Daniel, home">
+      <span>{profile.firstName}</span><span>{profile.lastName}</span>
+    </a>
+    <nav aria-label="Main">
+      <a href={`${base}#work`}>Work</a>
+      <a href={`${base}#about`}>About</a>
+      <a href={`${base}#contact`}>Contact</a>
+      <a href={profile.cv} target="_blank" rel="noopener">CV</a>
+    </nav>
+    <button class="theme" type="button" aria-label="Switch to light mode" data-theme-toggle>
+      <svg class="sun" viewBox="0 0 24 24" aria-hidden="true"
+        ><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="1.6"></circle><path
+          d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"
+          stroke="currentColor"
+          stroke-width="1.6"
+          stroke-linecap="round"></path></svg
+      >
+      <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"
+        ><path
+          d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.6"
+          stroke-linejoin="round"></path></svg
+      >
+    </button>
+  </div>
+</header>
+
+<script>
+  const btn = document.querySelector<HTMLButtonElement>("[data-theme-toggle]")!;
+  const root = document.documentElement;
+  const sync = () => {
+    const light = root.dataset.theme === "light";
+    btn.setAttribute("aria-label", light ? "Switch to dark mode" : "Switch to light mode");
+    document.querySelector('meta[name="theme-color"]')?.setAttribute("content", light ? "#f1efe9" : "#111110");
+  };
+  sync();
+  btn.addEventListener("click", () => {
+    const next = root.dataset.theme === "light" ? "dark" : "light";
+    root.dataset.theme = next;
+    try {
+      localStorage.setItem("theme", next);
+    } catch {}
+    sync();
+  });
+</script>
+
+<style>
+  .nav {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 50;
+    mix-blend-mode: difference;
+    color: #e8e6df;
+  }
+  .nav-in {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding-top: 18px;
+    padding-bottom: 18px;
+  }
+  .brand {
+    display: flex;
+    flex-direction: column;
+    font: 600 13px/1.05 var(--font-display);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    margin-right: auto;
+  }
+  nav {
+    display: flex;
+    gap: clamp(14px, 2.4vw, 28px);
+  }
+  nav a {
+    font: 500 13px/1 var(--font-body);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
+    padding: 4px 0;
+    transition: background-size 0.3s var(--ease);
+  }
+  nav a:hover {
+    background-size: 100% 1px;
+  }
+  .theme {
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    border: 1px solid currentColor;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    padding: 0;
+    transition: transform 0.4s var(--ease);
+  }
+  .theme:hover {
+    transform: rotate(30deg);
+  }
+  .theme svg {
+    width: 17px;
+    height: 17px;
+    grid-area: 1 / 1;
+  }
+  .moon {
+    display: none;
+  }
+  :global([data-theme="light"]) .sun {
+    display: none;
+  }
+  :global([data-theme="light"]) .moon {
+    display: block;
+  }
+  @media (max-width: 560px) {
+    nav a[href$=".pdf"] {
+      display: none;
+    }
+    nav {
+      gap: 14px;
+    }
+  }
+</style>

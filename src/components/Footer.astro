@@ -1,0 +1,87 @@
+---
+import { profile } from "../data/site";
+const year = new Date().getFullYear();
+---
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <p class="label">(Sitemap)</p>
+        <a class="link-u" href="/#work">Work</a>
+        <a class="link-u" href="/#about">About</a>
+        <a class="link-u" href="/#contact">Contact</a>
+      </div>
+      <div>
+        <p class="label">(Socials)</p>
+        <a class="link-u" href={profile.links.linkedin} target="_blank" rel="noopener">LinkedIn</a>
+        <a class="link-u" href={profile.links.behance} target="_blank" rel="noopener">Behance</a>
+        <a class="link-u" href={profile.links.whatsapp} target="_blank" rel="noopener">WhatsApp</a>
+      </div>
+      <div class="right">
+        <p class="label">(Say hello)</p>
+        <a class="link-u" href={profile.links.email}>{profile.email}</a>
+        <a class="link-u top" href="#main">Back to top ↑</a>
+      </div>
+    </div>
+    <p class="name" aria-hidden="true">{profile.firstName} {profile.lastName}</p>
+    <div class="base label">
+      <span>© {year} {profile.fullName}</span>
+      <span>{profile.location}</span>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .foot {
+    border-top: 1px solid var(--line);
+    padding-top: 56px;
+    overflow: hidden;
+  }
+  .cols {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .cols div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .cols .label {
+    margin-bottom: 6px;
+  }
+  .right {
+    align-items: flex-end !important;
+    text-align: right;
+  }
+  .top {
+    margin-top: 12px;
+  }
+  .name {
+    font: 600 clamp(48px, 13.5vw, 210px) / 0.8 var(--font-display);
+    letter-spacing: -0.055em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    margin: 64px 0 0;
+    color: var(--surface);
+  }
+  .base {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 20px 0 28px;
+    border-top: 1px solid var(--line);
+  }
+  @media (max-width: 700px) {
+    .cols {
+      grid-template-columns: 1fr 1fr;
+    }
+    .right {
+      grid-column: 1 / -1;
+      align-items: flex-start !important;
+      text-align: left;
+    }
+  }
+</style>
