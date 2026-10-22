@@ -22,7 +22,6 @@ export type Project = {
   category: string;
   summary: string;
   headline: string;
-  highlight: string;
   scope: string[];
   tags: string[];
   meta: { k: string; v: string }[];
@@ -41,7 +40,6 @@ export const projects: Project[] = [
       "The official Rex Insurance app. Policies, claims and renewals in a few calm taps, for people who have never read a policy document.",
     headline:
       "Leading design on Rex Insurance's mobile app: buying cover, filing claims and renewing, without calling an agent.",
-    highlight: "+30% completed transactions",
     scope: ["Product design", "Mobile app", "Design system"],
     tags: ["UX", "UI", "Mobile", "WCAG 2.1"],
     meta: [
@@ -200,7 +198,6 @@ export const projects: Project[] = [
       "A full rebuild of losode.com, a pan-African fashion marketplace. Every buyer page and seller tool, desktop and mobile.",
     headline:
       "A marketplace for African fashion, rebuilt to feel as considered as the best global platforms while staying rooted in an African context.",
-    highlight: "+25% user retention",
     scope: ["Product design", "Design system", "Web & mobile"],
     tags: ["UX", "UI", "Commerce", "Design system"],
     meta: [
@@ -344,7 +341,6 @@ export const projects: Project[] = [
     summary:
       "A payment-splitting app for how Nigerians actually share bills. Less awkward asking, clearer balances.",
     headline: "Turning awkward money conversations into clear taps, built for how Nigerians share bills.",
-    highlight: "Split created in under 35s",
     scope: ["UX research", "Mobile app", "Visual system"],
     tags: ["UX", "UI", "Fintech", "Concept"],
     meta: [
