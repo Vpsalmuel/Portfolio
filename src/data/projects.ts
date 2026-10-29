@@ -10,7 +10,7 @@ export type Block =
   | {
       type: "images";
       layout: "phones" | "wide" | "pair";
-      items: { image: string; caption?: string }[];
+      items: { image: string; caption?: string; fit?: "contain" }[];
     };
 
 export type Section = { label: string; title: string; blocks: Block[] };
@@ -191,6 +191,189 @@ export const projects: Project[] = [
             type: "text",
             body: [
               "Trust in a mobile app is built through tone as much as flow. One reassuring sentence in the claim wizard does more than visual polish. Designing for someone mid-accident means defaulting to calm, guided, low-friction screens instead of dense information.",
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    slug: "api-gateway",
+    title: "Rex API Gateway",
+    year: "2025",
+    category: "Enterprise · API platform",
+    summary:
+      "A self-serve API gateway for insurance partners: an admin portal to onboard and govern partners, and a partner portal to test, integrate and monitor.",
+    headline:
+      "Replacing email threads and hand-wired integrations with a self-serve platform where insurance partners onboard in under three minutes.",
+    glance: {
+      challenge:
+        "Partners connected to Rex's insurance APIs through an onboarding form, long email threads and developers wiring each integration by hand. Every new partner cost engineering time.",
+      role: "Designed the gateway end to end, the admin portal and the partner portal, working with a PM and engineers over three months.",
+      impact: "Partner onboarding now takes under 3 minutes. Kolanut, Myka, Eco-Insurance and Hookcab run on it, with fewer support tickets and emails.",
+    },
+    scope: ["Product design", "Enterprise UX", "Developer experience"],
+    tags: ["UX", "UI", "B2B", "API platform"],
+    meta: [
+      { k: "Role", v: "Product designer" },
+      { k: "Company", v: "Rex Insurance" },
+      { k: "Timeline", v: "3 months" },
+      { k: "Team", v: "PM, engineers, 1 designer" },
+      { k: "Platform", v: "Web: admin + partner portals" },
+      { k: "Status", v: "Live with partners" },
+    ],
+    cover: "gw-cover.jpg",
+    sections: [
+      {
+        label: "Overview",
+        title: "One gateway, two portals",
+        blocks: [
+          {
+            type: "text",
+            body: [
+              "Rex sells insurance through partners: fintechs, marketplaces and mobility apps that embed cover in their own products. To do that they need Rex's APIs, and getting a partner connected used to be a manual project.",
+              "I designed the API gateway that turned it into a product: an admin portal where Rex's team onboards partners, assigns API access and watches traffic, and a partner portal where each partner gets keys, documentation, a live testing console and their own analytics.",
+            ],
+          },
+          { type: "images", layout: "wide", items: [{ image: "gw-admin-dashboard.jpg", caption: "Admin portal: requests, active users, today's traffic and error rate, with live API activity" }] },
+        ],
+      },
+      {
+        label: "Problem",
+        title: "Integration by email",
+        blocks: [
+          {
+            type: "text",
+            body: [
+              "Before the gateway, a partner filled in an onboarding form, then the real work happened over email: developers sent credentials and documentation by hand, answered questions thread by thread, and wired up each integration themselves.",
+            ],
+          },
+          {
+            type: "cards",
+            items: [
+              { title: "Developers as the bottleneck", body: "Every new partner needed engineering time before a single API call could be made." },
+              { title: "Answers lived in inboxes", body: "Questions, keys and docs were scattered across email threads instead of one place partners could check." },
+              { title: "Slow to support", body: "When something broke, finding out what happened meant more emails, not a dashboard." },
+              { title: "Hard to scale", body: "Each partner added to the pile, so growing the partner network meant growing the manual work." },
+            ],
+          },
+        ],
+      },
+      {
+        label: "Goals",
+        title: "What the platform had to do",
+        blocks: [
+          {
+            type: "goals",
+            items: [
+              "Let Rex's team onboard a partner and grant API access in minutes, without a developer.",
+              "Give every partner self-serve keys, docs and a way to test calls before writing code.",
+              "Make access governable: assign, review and suspend API access per partner.",
+              "Show traffic, errors and usage to both sides, so problems are spotted before they become emails.",
+            ],
+          },
+        ],
+      },
+      {
+        label: "Admin portal",
+        title: "Onboarding a partner in three steps",
+        blocks: [
+          {
+            type: "text",
+            body: [
+              "Adding a partner is a short wizard: who they are (individual or company), which APIs they can use, and a review before anything goes live. Access is a choice from a list, not a request to engineering.",
+            ],
+          },
+          { type: "images", layout: "wide", items: [{ image: "gw-onboard-details.jpg", caption: "Step 1: partner details, individual or company" }] },
+          {
+            type: "images",
+            layout: "pair",
+            items: [
+              { image: "gw-onboard-apis.jpg", caption: "Step 2: assign the APIs this partner can call" },
+              { image: "gw-onboard-review.jpg", caption: "Step 3: review company details and API access before creating" },
+            ],
+          },
+          {
+            type: "images",
+            layout: "pair",
+            items: [
+              { image: "gw-manage-users.jpg", caption: "All partners in one table, with usage and status" },
+              { image: "gw-suspend.jpg", caption: "Suspend access for a set duration, with a recorded reason", fit: "contain" },
+            ],
+          },
+        ],
+      },
+      {
+        label: "Governing APIs",
+        title: "Publishing and watching every API",
+        blocks: [
+          {
+            type: "text",
+            body: [
+              "The same pattern runs for the APIs themselves. Admins register an API in four steps (basic info, endpoints, policies such as rate limits and authentication, then review), and every API gets its own health view.",
+            ],
+          },
+          {
+            type: "images",
+            layout: "pair",
+            items: [
+              { image: "gw-add-api-2.jpg", caption: "Define endpoints, methods and authentication" },
+              { image: "gw-add-api-3.jpg", caption: "Set policies: rate limits, auth type and CORS" },
+            ],
+          },
+          { type: "images", layout: "wide", items: [{ image: "gw-api-metrics.jpg", caption: "API metrics: health, total requests, latency and error rate" }] },
+        ],
+      },
+      {
+        label: "Partner portal",
+        title: "Everything a partner needs, without an email",
+        blocks: [
+          {
+            type: "text",
+            body: [
+              "Partners land on a dashboard with their access token, a quick API test and recent activity. From there they browse the APIs they have access to, read the documentation, try requests in a live console, and track their own usage.",
+            ],
+          },
+          { type: "images", layout: "wide", items: [{ image: "gw-partner-dashboard.jpg", caption: "Partner dashboard: usage, access token, quick API test and activity" }] },
+          {
+            type: "images",
+            layout: "pair",
+            items: [
+              { image: "gw-partner-docs.jpg", caption: "Documentation with a live API testing console" },
+              { image: "gw-partner-analytics.jpg", caption: "Partner analytics: usage trends, top endpoints and quotas" },
+            ],
+          },
+        ],
+      },
+      {
+        label: "Iteration",
+        title: "Designed with partners, not just for them",
+        blocks: [
+          {
+            type: "text",
+            body: [
+              "The first version of onboarding didn't survive contact with real partners. We tested it with them, listened to where they got stuck, and reworked the onboarding flow before rollout.",
+              "The result I'm proudest of is the quiet one: partners started using the platform and it didn't break.",
+            ],
+          },
+        ],
+      },
+      {
+        label: "Impact",
+        title: "Results",
+        blocks: [
+          {
+            type: "stats",
+            items: [
+              { value: "<3 min", label: "To onboard a partner, down from an email-driven manual process" },
+              { value: "4", label: "Partners live: Kolanut, Myka, Eco-Insurance and Hookcab" },
+              { value: "3 months", label: "From first designs to a platform partners use" },
+            ],
+          },
+          {
+            type: "text",
+            body: [
+              "With keys, docs and testing self-serve, the team saw fewer support tickets, fewer emails and faster responses when issues did come up, because both sides can see the same traffic and errors.",
             ],
           },
         ],

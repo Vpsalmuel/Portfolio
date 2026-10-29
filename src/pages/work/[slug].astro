@@ -155,7 +155,7 @@ const minutes = Math.max(1, Math.round(words / 200));
                   <div class={`imgs imgs-${b.layout}`}>
                     {b.items.map((m) => (
                       <figure>
-                        <div class="frame wipe">
+                        <div class={`frame wipe${m.fit === "contain" ? " contain" : ""}`}>
                           <Image
                             src={img(m.image)}
                             alt={m.caption ?? p.title}
@@ -449,6 +449,10 @@ const minutes = Math.max(1, Math.round(words / 200));
   }
   .imgs-pair .frame img {
     object-position: top center;
+  }
+  .imgs .frame.contain img {
+    object-fit: contain;
+    padding: 4%;
   }
   .imgs-wide .frame img {
     height: auto;
