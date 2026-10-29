@@ -31,6 +31,18 @@
   color-scheme: light;
 }
 
+/* Registered so the hero letters' waterline and wave can animate smoothly */
+@property --wy {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 0%;
+}
+@property --wx {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 0%;
+}
+
 /* ---------- Base ---------- */
 *,
 *::before,

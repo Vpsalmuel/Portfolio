@@ -28,7 +28,7 @@ const galleryLarge = await Promise.all(
             <span class="line" aria-hidden="true">
               <span class="word">
                 {[...word].map((ch, ci) => (
-                  <span class="ch" style={`--i:${ci + li * 4}`}>
+                  <span class="ch" data-ch={ch} style={`--i:${ci + li * 4}`}>
                     {ch}
                   </span>
                 ))}
@@ -100,7 +100,7 @@ const galleryLarge = await Promise.all(
       <ol class="rows">
         {
           projects.map((p, i) => (
-            <li class="row rv">
+            <li class="row rv" data-stack style={`--k:${i}`}>
               <a href={`/work/${p.slug}/`} class="row-link" data-cursor="View case">
                 <div class="row-title">
                   <span class="label">0{i + 1}</span>
@@ -381,6 +381,12 @@ const galleryLarge = await Promise.all(
     mix-blend-mode: difference;
     color: #e8e6df;
     pointer-events: none;
+    /* The name is drawn with a difference blend, so the fill colour is chosen to
+       come out as the accent orange once blended with the page background. */
+    --fill: #ff6c3e;
+  }
+  :global([data-theme="light"]) .name {
+    --fill: #11a9cf;
   }
   .line {
     display: block;
@@ -395,8 +401,42 @@ const galleryLarge = await Promise.all(
   /* letters rise one after another */
   .ch {
     display: inline-block;
+    position: relative;
+    pointer-events: auto;
     animation: rise 1.1s var(--ease) both;
     animation-delay: calc(0.1s + var(--i) * 0.045s);
+  }
+  /* Hover a letter: orange "water" rises inside it with a moving wave, then drains on leave.
+     A copy of the glyph is masked by a wave image; --wy raises the waterline, --wx rolls the wave. */
+  .ch::after {
+    content: attr(data-ch);
+    position: absolute;
+    inset: 0;
+    color: var(--fill);
+    -webkit-mask-image: var(--wave);
+    mask-image: var(--wave);
+    -webkit-mask-size: 200% 200%;
+    mask-size: 200% 200%;
+    -webkit-mask-repeat: repeat-x;
+    mask-repeat: repeat-x;
+    -webkit-mask-position: var(--wx) var(--wy);
+    mask-position: var(--wx) var(--wy);
+    --wave: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200' preserveAspectRatio='none'%3E%3Cpath d='M0 100 Q25 88 50 100 T100 100 T150 100 T200 100 V200 H0 Z'/%3E%3C/svg%3E");
+    --wy: 0%;
+    transition: --wy 0.7s cubic-bezier(0.5, 0, 0.75, 0);
+    animation: wave 1.6s linear infinite;
+  }
+  .ch:hover::after {
+    --wy: 108%;
+    transition: --wy 0.9s var(--ease);
+  }
+  @keyframes wave {
+    from {
+      --wx: 0%;
+    }
+    to {
+      --wx: 100%;
+    }
   }
   @keyframes rise {
     from {
@@ -581,6 +621,23 @@ const galleryLarge = await Promise.all(
     column-gap: var(--gutter);
     padding: 24px 0;
     text-decoration: none;
+    transform-origin: 50% 0;
+  }
+  /* Stacking cards: each project pins below the header and the next one slides over it.
+     motion.ts shrinks and dims the card being covered. Larger screens only. */
+  @media (min-width: 761px) {
+    .row {
+      position: sticky;
+      top: calc(84px + var(--k) * 28px);
+      background: var(--bg);
+      box-shadow: 0 -28px 48px -28px rgba(0, 0, 0, 0.55);
+    }
+    :global([data-theme="light"]) .row {
+      box-shadow: 0 -28px 48px -28px rgba(0, 0, 0, 0.18);
+    }
+    .row + .row {
+      margin-top: 12vh;
+    }
   }
   .row-title {
     grid-column: 1 / 3;

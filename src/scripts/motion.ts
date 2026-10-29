@@ -105,6 +105,9 @@ function initReveals() {
 let parallax: HTMLElement[] = [];
 let drift: HTMLElement[] = [];
 let bar: HTMLElement | null = null;
+// [data-stack] cards: the one being covered by the next shrinks and dims
+let stack: HTMLElement[] = [];
+const wide = matchMedia("(min-width: 761px)");
 
 const update = () => {
   ticking = false;
@@ -122,6 +125,21 @@ const update = () => {
     const progress = (vh - r.top) / (vh + r.height); // 0 → 1 while on screen
     const amount = Number(el.dataset.drift) * innerWidth;
     el.style.translate = `${((progress - 0.5) * amount).toFixed(1)}px 0`;
+  }
+  for (let i = 0; i < stack.length; i++) {
+    const inner = stack[i].firstElementChild as HTMLElement | null;
+    if (!inner) continue;
+    const next = stack[i + 1];
+    if (!next || !wide.matches) {
+      inner.style.scale = "";
+      inner.style.filter = "";
+      continue;
+    }
+    const r = stack[i].getBoundingClientRect();
+    const n = next.getBoundingClientRect();
+    const p = Math.min(1, Math.max(0, (r.bottom - n.top) / r.height)); // 0 → 1 as the next card covers it
+    inner.style.scale = String(1 - p * 0.05);
+    inner.style.filter = p > 0 ? `brightness(${1 - p * 0.45})` : "";
   }
   if (bar) {
     const max = document.documentElement.scrollHeight - vh;
@@ -145,5 +163,6 @@ document.addEventListener("astro:page-load", () => {
   parallax = Array.from(document.querySelectorAll<HTMLElement>("[data-parallax]"));
   drift = Array.from(document.querySelectorAll<HTMLElement>("[data-drift]"));
   bar = document.querySelector<HTMLElement>(".progress");
+  stack = Array.from(document.querySelectorAll<HTMLElement>("[data-stack]"));
   if (!reduced) update();
 });

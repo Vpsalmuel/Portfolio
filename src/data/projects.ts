@@ -210,7 +210,7 @@ export const projects: Project[] = [
       challenge:
         "Partners connected to Rex's insurance APIs through an onboarding form, long email threads and developers wiring each integration by hand. Every new partner cost engineering time.",
       role: "Designed the gateway end to end, the admin portal and the partner portal, working with a PM and engineers over three months.",
-      impact: "Partner onboarding now takes under 3 minutes, with four partners live on it and fewer support tickets and emails.",
+      impact: "Partner onboarding now takes under 3 minutes, with 5+ partners live on it (and growing) and fewer support tickets and emails.",
     },
     scope: ["Product design", "Enterprise UX", "Developer experience"],
     tags: ["UX", "UI", "B2B", "API platform"],
@@ -366,7 +366,7 @@ export const projects: Project[] = [
             type: "stats",
             items: [
               { value: "<3 min", label: "To onboard a partner, down from an email-driven manual process" },
-              { value: "4", label: "Partners live and integrating through the gateway" },
+              { value: "5+", label: "Partners live and integrating through the gateway, and growing" },
               { value: "3 months", label: "From first designs to a platform partners use" },
             ],
           },
