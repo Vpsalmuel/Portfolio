@@ -210,7 +210,7 @@ export const projects: Project[] = [
       challenge:
         "Partners connected to Rex's insurance APIs through an onboarding form, long email threads and developers wiring each integration by hand. Every new partner cost engineering time.",
       role: "Designed the gateway end to end, the admin portal and the partner portal, working with a PM and engineers over three months.",
-      impact: "Partner onboarding now takes under 3 minutes. Kolanut, Myka, Eco-Insurance and Hookcab run on it, with fewer support tickets and emails.",
+      impact: "Partner onboarding now takes under 3 minutes, with four partners live on it and fewer support tickets and emails.",
     },
     scope: ["Product design", "Enterprise UX", "Developer experience"],
     tags: ["UX", "UI", "B2B", "API platform"],
@@ -231,7 +231,7 @@ export const projects: Project[] = [
           {
             type: "text",
             body: [
-              "Rex sells insurance through partners: fintechs, marketplaces and mobility apps that embed cover in their own products. To do that they need Rex's APIs, and getting a partner connected used to be a manual project.",
+              "Rex sells insurance through partners: companies that embed cover in their own products. To do that they need Rex's APIs, and getting a partner connected used to be a manual project.",
               "I designed the API gateway that turned it into a product: an admin portal where Rex's team onboards partners, assigns API access and watches traffic, and a partner portal where each partner gets keys, documentation, a live testing console and their own analytics.",
             ],
           },
@@ -366,7 +366,7 @@ export const projects: Project[] = [
             type: "stats",
             items: [
               { value: "<3 min", label: "To onboard a partner, down from an email-driven manual process" },
-              { value: "4", label: "Partners live: Kolanut, Myka, Eco-Insurance and Hookcab" },
+              { value: "4", label: "Partners live and integrating through the gateway" },
               { value: "3 months", label: "From first designs to a platform partners use" },
             ],
           },
