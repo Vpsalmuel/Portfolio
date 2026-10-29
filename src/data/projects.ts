@@ -22,6 +22,8 @@ export type Project = {
   category: string;
   summary: string;
   headline: string;
+  /** The 10-second version shown at the top of the case study */
+  glance: { challenge: string; role: string; impact: string };
   scope: string[];
   tags: string[];
   meta: { k: string; v: string }[];
@@ -40,6 +42,12 @@ export const projects: Project[] = [
       "The official Rex Insurance app. Policies, claims and renewals in a few calm taps, for people who have never read a policy document.",
     headline:
       "Leading design on Rex Insurance's mobile app: buying cover, filing claims and renewing, without calling an agent.",
+    glance: {
+      challenge:
+        "Insurance ran on agents and paperwork. Customers couldn't see what they were covered for, renewals lapsed silently, and claims were a black box.",
+      role: "Led end-to-end design of the official mobile app: flows, UI, design system, accessibility, and the documentation engineering built from.",
+      impact: "+30% completed transactions and −25% drop-off across policy purchase and claims, with WCAG 2.1 applied across the product.",
+    },
     scope: ["Product design", "Mobile app", "Design system"],
     tags: ["UX", "UI", "Mobile", "WCAG 2.1"],
     meta: [
@@ -198,6 +206,12 @@ export const projects: Project[] = [
       "A full rebuild of losode.com, a pan-African fashion marketplace. Every buyer page and seller tool, desktop and mobile.",
     headline:
       "A marketplace for African fashion, rebuilt to feel as considered as the best global platforms while staying rooted in an African context.",
+    glance: {
+      challenge:
+        "A live marketplace with wildly inconsistent vendor photos and data had to feel premium and trustworthy to buyers at home and in the diaspora.",
+      role: "Lead designer across 30+ buyer and seller screens and the component system behind them, working directly with the founder and dev team.",
+      impact: "Shipped at losode.com. User retention rose 25% after the rebuild, and new designers onboard into templated storefronts.",
+    },
     scope: ["Product design", "Design system", "Web & mobile"],
     tags: ["UX", "UI", "Commerce", "Design system"],
     meta: [
@@ -341,6 +355,12 @@ export const projects: Project[] = [
     summary:
       "A payment-splitting app for how Nigerians actually share bills. Less awkward asking, clearer balances.",
     headline: "Turning awkward money conversations into clear taps, built for how Nigerians share bills.",
+    glance: {
+      challenge:
+        "Splitting bills in Nigeria runs on screenshots, calculator apps and awkward reminders, and global tools feel foreign.",
+      role: "Self-initiated: research, flows, UI and a money-direction colour system, then informal usability tests with six people.",
+      impact: "All six testers created a split in under 35 seconds; five of six preferred Divvy's 'settle up' language to Splitwise.",
+    },
     scope: ["UX research", "Mobile app", "Visual system"],
     tags: ["UX", "UI", "Fintech", "Concept"],
     meta: [

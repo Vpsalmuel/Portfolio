@@ -36,27 +36,54 @@ const base = home ? "" : "/";
 </header>
 
 <script>
-  const btn = document.querySelector<HTMLButtonElement>("[data-theme-toggle]")!;
+  // Re-wired on every page, since page transitions swap the header.
   const root = document.documentElement;
-  const sync = () => {
-    const light = root.dataset.theme === "light";
-    btn.setAttribute("aria-label", light ? "Switch to dark mode" : "Switch to light mode");
-    document.querySelector('meta[name="theme-color"]')?.setAttribute("content", light ? "#f1efe9" : "#111110");
-  };
-  sync();
+  let sectionIO: IntersectionObserver | null = null;
 
-  const nav = document.querySelector<HTMLElement>(".nav")!;
-  const onScroll = () => nav.classList.toggle("scrolled", scrollY > 24);
+  const onScroll = () => document.querySelector(".nav")?.classList.toggle("scrolled", scrollY > 24);
   addEventListener("scroll", onScroll, { passive: true });
-  onScroll();
 
-  btn.addEventListener("click", () => {
-    const next = root.dataset.theme === "light" ? "dark" : "light";
-    root.dataset.theme = next;
-    try {
-      localStorage.setItem("theme", next);
-    } catch {}
+  document.addEventListener("astro:page-load", () => {
+    const btn = document.querySelector<HTMLButtonElement>("[data-theme-toggle]")!;
+    const sync = () => {
+      const light = root.dataset.theme === "light";
+      btn.setAttribute("aria-label", light ? "Switch to dark mode" : "Switch to light mode");
+      document.querySelector('meta[name="theme-color"]')?.setAttribute("content", light ? "#f1efe9" : "#111110");
+    };
     sync();
+    onScroll();
+    btn.addEventListener("click", () => {
+      const next = root.dataset.theme === "light" ? "dark" : "light";
+      root.dataset.theme = next;
+      try {
+        localStorage.setItem("theme", next);
+      } catch {}
+      sync();
+    });
+
+    // Underline the nav link for the section currently in view (home page only)
+    sectionIO?.disconnect();
+    const links = new Map<string, HTMLAnchorElement>();
+    document.querySelectorAll<HTMLAnchorElement>('nav a[href^="#"]').forEach((a) => links.set(a.hash.slice(1), a));
+    if (!links.size) return;
+    sectionIO = new IntersectionObserver(
+      (entries) =>
+        entries.forEach((e) => {
+          const link = links.get(e.target.id);
+          if (!link) return;
+          if (e.isIntersecting) {
+            links.forEach((l) => l.removeAttribute("aria-current"));
+            link.setAttribute("aria-current", "true");
+          } else if (link.hasAttribute("aria-current")) {
+            link.removeAttribute("aria-current");
+          }
+        }),
+      { rootMargin: "-45% 0px -50% 0px" },
+    );
+    links.forEach((_, id) => {
+      const el = document.getElementById(id);
+      if (el) sectionIO!.observe(el);
+    });
   });
 </script>
 
@@ -106,7 +133,8 @@ const base = home ? "" : "/";
     padding: 4px 0;
     transition: background-size 0.3s var(--ease);
   }
-  nav a:hover {
+  nav a:hover,
+  nav a[aria-current] {
     background-size: 100% 1px;
   }
   .theme {

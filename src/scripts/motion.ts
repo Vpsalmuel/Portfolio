@@ -56,78 +56,94 @@ function countUp(el: HTMLElement) {
 }
 
 /* ---------- Reveal on scroll ---------- */
-const splitEls = document.querySelectorAll<HTMLElement>("[data-split]");
-splitEls.forEach(splitWords);
+// Runs on every page: the first load and each page-transition swap (astro:page-load fires for both).
+let io: IntersectionObserver | null = null;
 
-const revealEls = document.querySelectorAll<HTMLElement>(".rv, [data-split], [data-count]");
-// A fully clipped .wipe never counts as visible, so watch its parent and reveal the wipe from there.
-const wipes = document.querySelectorAll<HTMLElement>(".wipe");
-const wipeByParent = new Map<Element, HTMLElement[]>();
-wipes.forEach((w) => {
-  const parent = w.parentElement!;
-  wipeByParent.set(parent, [...(wipeByParent.get(parent) ?? []), w]);
-});
+function initReveals() {
+  io?.disconnect();
+  document.querySelectorAll<HTMLElement>("[data-split]:not([data-split-done])").forEach((el) => {
+    splitWords(el);
+    el.dataset.splitDone = "";
+  });
 
-const reveal = (el: HTMLElement) => {
-  el.classList.add("in");
-  if (el.dataset.count && !reduced) countUp(el);
-};
+  const revealEls = document.querySelectorAll<HTMLElement>(".rv, [data-split], [data-count]");
+  // A fully clipped .wipe never counts as visible, so watch its parent and reveal the wipe from there.
+  const wipes = document.querySelectorAll<HTMLElement>(".wipe");
+  const wipeByParent = new Map<Element, HTMLElement[]>();
+  wipes.forEach((w) => {
+    const parent = w.parentElement!;
+    wipeByParent.set(parent, [...(wipeByParent.get(parent) ?? []), w]);
+  });
 
-if (reduced || !("IntersectionObserver" in window)) {
-  revealEls.forEach((el) => el.classList.add("in"));
-  wipes.forEach((el) => el.classList.add("in"));
-} else {
-  const io = new IntersectionObserver(
+  const reveal = (el: HTMLElement) => {
+    el.classList.add("in");
+    if (el.dataset.count && !reduced) countUp(el);
+  };
+
+  if (reduced || !("IntersectionObserver" in window)) {
+    revealEls.forEach((el) => el.classList.add("in"));
+    wipes.forEach((el) => el.classList.add("in"));
+    return;
+  }
+  const observer = new IntersectionObserver(
     (entries) =>
       entries.forEach((e) => {
         if (!e.isIntersecting) return;
         if (wipeByParent.has(e.target)) wipeByParent.get(e.target)!.forEach((w) => w.classList.add("in"));
         if (e.target.matches(".rv, [data-split], [data-count]")) reveal(e.target as HTMLElement);
-        io.unobserve(e.target);
+        observer.unobserve(e.target);
       }),
     { threshold: 0.15, rootMargin: "0px 0px -6% 0px" },
   );
-  new Set<Element>([...revealEls, ...wipeByParent.keys()]).forEach((el) => io.observe(el));
+  new Set<Element>([...revealEls, ...wipeByParent.keys()]).forEach((el) => observer.observe(el));
+  io = observer;
 }
 
 /* ---------- Scroll-linked motion ---------- */
 // data-parallax="0.15": moves vertically at a fraction of scroll speed.
 // data-drift="-0.2": moves horizontally as the element crosses the viewport.
-const parallax = Array.from(document.querySelectorAll<HTMLElement>("[data-parallax]"));
-const drift = Array.from(document.querySelectorAll<HTMLElement>("[data-drift]"));
-const bar = document.querySelector<HTMLElement>(".progress");
+let parallax: HTMLElement[] = [];
+let drift: HTMLElement[] = [];
+let bar: HTMLElement | null = null;
 
+const update = () => {
+  ticking = false;
+  const vh = innerHeight;
+  for (const el of parallax) {
+    const r = el.getBoundingClientRect();
+    if (r.bottom < -200 || r.top > vh + 200) continue;
+    const speed = Number(el.dataset.parallax);
+    const offset = (r.top + r.height / 2 - vh / 2) * speed;
+    el.style.translate = `0 ${offset.toFixed(1)}px`;
+  }
+  for (const el of drift) {
+    const r = el.getBoundingClientRect();
+    if (r.bottom < 0 || r.top > vh) continue;
+    const progress = (vh - r.top) / (vh + r.height); // 0 → 1 while on screen
+    const amount = Number(el.dataset.drift) * innerWidth;
+    el.style.translate = `${((progress - 0.5) * amount).toFixed(1)}px 0`;
+  }
+  if (bar) {
+    const max = document.documentElement.scrollHeight - vh;
+    bar.style.transform = `scaleX(${max > 0 ? scrollY / max : 0})`;
+  }
+};
+let ticking = false;
+const onScroll = () => {
+  if (!ticking) {
+    ticking = true;
+    requestAnimationFrame(update);
+  }
+};
 if (!reduced) {
-  let ticking = false;
-  const update = () => {
-    ticking = false;
-    const vh = innerHeight;
-    for (const el of parallax) {
-      const r = el.getBoundingClientRect();
-      if (r.bottom < -200 || r.top > vh + 200) continue;
-      const speed = Number(el.dataset.parallax);
-      const offset = (r.top + r.height / 2 - vh / 2) * speed;
-      el.style.translate = `0 ${offset.toFixed(1)}px`;
-    }
-    for (const el of drift) {
-      const r = el.getBoundingClientRect();
-      if (r.bottom < 0 || r.top > vh) continue;
-      const progress = (vh - r.top) / (vh + r.height); // 0 → 1 while on screen
-      const amount = Number(el.dataset.drift) * innerWidth;
-      el.style.translate = `${((progress - 0.5) * amount).toFixed(1)}px 0`;
-    }
-    if (bar) {
-      const max = document.documentElement.scrollHeight - vh;
-      bar.style.transform = `scaleX(${max > 0 ? scrollY / max : 0})`;
-    }
-  };
-  const onScroll = () => {
-    if (!ticking) {
-      ticking = true;
-      requestAnimationFrame(update);
-    }
-  };
   addEventListener("scroll", onScroll, { passive: true });
   addEventListener("resize", onScroll);
-  update();
 }
+
+document.addEventListener("astro:page-load", () => {
+  initReveals();
+  parallax = Array.from(document.querySelectorAll<HTMLElement>("[data-parallax]"));
+  drift = Array.from(document.querySelectorAll<HTMLElement>("[data-drift]"));
+  bar = document.querySelector<HTMLElement>(".progress");
+  if (!reduced) update();
+});

@@ -1,0 +1,160 @@
+---
+// A follower ring that grows into a labelled pill over anything with data-cursor="Label",
+// plus a gentle magnetic pull on buttons. Mouse/trackpad only; off for reduced motion.
+---
+
+<div class="cursor" aria-hidden="true" transition:persist>
+  <span class="cursor-label"></span>
+</div>
+
+<script>
+  const fine = matchMedia("(pointer: fine)").matches;
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (fine && !reduced) {
+    const el = document.querySelector<HTMLElement>(".cursor")!;
+    const label = el.querySelector<HTMLElement>(".cursor-label")!;
+    let x = -100,
+      y = -100,
+      cx = -100,
+      cy = -100;
+
+    addEventListener(
+      "pointermove",
+      (e) => {
+        x = e.clientX;
+        y = e.clientY;
+        el.classList.add("on");
+      },
+      { passive: true },
+    );
+    document.addEventListener("pointerleave", () => el.classList.remove("on"));
+
+    const loop = () => {
+      cx += (x - cx) * 0.2;
+      cy += (y - cy) * 0.2;
+      el.style.transform = `translate3d(${cx}px, ${cy}px, 0)`;
+      requestAnimationFrame(loop);
+    };
+    loop();
+
+    // Label pill over [data-cursor] targets (delegated, so it survives page swaps)
+    document.addEventListener("pointerover", (e) => {
+      const t = (e.target as Element).closest<HTMLElement>("[data-cursor]");
+      if (t) {
+        label.textContent = t.dataset.cursor!;
+        el.classList.add("big");
+      }
+      el.classList.toggle("link", !t && !!(e.target as Element).closest("a, button"));
+    });
+    document.addEventListener("pointerout", (e) => {
+      const t = (e.target as Element).closest("[data-cursor]");
+      const to = (e.relatedTarget as Element | null)?.closest?.("[data-cursor]");
+      if (t && t !== to) el.classList.remove("big");
+    });
+    document.addEventListener("pointerdown", () => el.classList.add("press"));
+    document.addEventListener("pointerup", () => el.classList.remove("press"));
+
+    // Magnetic buttons: drift a few pixels toward the pointer
+    document.addEventListener("pointermove", (e) => {
+      const m = (e.target as Element).closest<HTMLElement>(".btn, .theme, .lb-btn");
+      document.querySelectorAll<HTMLElement>("[data-magnet]").forEach((b) => {
+        if (b !== m) {
+          b.style.translate = "";
+          b.removeAttribute("data-magnet");
+        }
+      });
+      if (!m) return;
+      const r = m.getBoundingClientRect();
+      const dx = (e.clientX - (r.left + r.width / 2)) * 0.25;
+      const dy = (e.clientY - (r.top + r.height / 2)) * 0.35;
+      m.dataset.magnet = "";
+      m.style.translate = `${dx.toFixed(1)}px ${dy.toFixed(1)}px`;
+    });
+  }
+</script>
+
+<style>
+  .cursor {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 100;
+    pointer-events: none;
+    width: 0;
+    height: 0;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .cursor.on {
+    opacity: 1;
+  }
+  .cursor::before {
+    content: "";
+    position: absolute;
+    left: -16px;
+    top: -16px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid var(--ink);
+    opacity: 0.5;
+    transition:
+      width 0.35s var(--ease),
+      height 0.35s var(--ease),
+      left 0.35s var(--ease),
+      top 0.35s var(--ease),
+      background-color 0.25s,
+      opacity 0.25s,
+      border-color 0.25s,
+      scale 0.2s;
+  }
+  .cursor.link::before {
+    left: -24px;
+    top: -24px;
+    width: 48px;
+    height: 48px;
+    opacity: 0.8;
+  }
+  .cursor.big::before {
+    left: -48px;
+    top: -48px;
+    width: 96px;
+    height: 96px;
+    background: var(--accent);
+    border-color: var(--accent);
+    opacity: 1;
+  }
+  .cursor.press::before {
+    scale: 0.85;
+  }
+  .cursor-label {
+    position: absolute;
+    left: 0;
+    top: 0;
+    translate: -50% -50%;
+    white-space: nowrap;
+    font: 600 12px/1 var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--accent-ink);
+    opacity: 0;
+    scale: 0.6;
+    transition: opacity 0.2s, scale 0.35s var(--ease);
+  }
+  .cursor.big .cursor-label {
+    opacity: 1;
+    scale: 1;
+  }
+  @media (pointer: coarse) {
+    .cursor {
+      display: none;
+    }
+  }
+  :global(.btn),
+  :global(.theme),
+  :global(.lb-btn) {
+    transition-property: background-color, color, border-color, transform, translate;
+    transition-duration: 0.25s, 0.25s, 0.25s, 0.25s, 0.35s;
+  }
+</style>

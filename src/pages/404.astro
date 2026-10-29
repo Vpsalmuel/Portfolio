@@ -1,0 +1,62 @@
+---
+import Base from "../layouts/Base.astro";
+import Arrow from "../components/Arrow.astro";
+import { projects } from "../data/projects";
+---
+
+<Base title="Page not found — Samuel Daniel" description="This page doesn't exist. Head back to Samuel Daniel's work.">
+  <section class="wrap nf">
+    <p class="label">(Error 404)</p>
+    <h1 class="giant" data-split>Lost</h1>
+    <p class="lead">This page doesn't exist, but the work does.</p>
+    <ul>
+      {
+        projects.map((p) => (
+          <li>
+            <a href={`/work/${p.slug}/`} data-cursor="View case">
+              {p.title} <Arrow />
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <a class="btn btn-solid" href="/">Back to home <Arrow /></a>
+  </section>
+</Base>
+
+<style>
+  .nf {
+    min-height: 80svh;
+    padding-top: 140px;
+    padding-bottom: 80px;
+    display: grid;
+    gap: 28px;
+    align-content: start;
+    justify-items: start;
+  }
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+  }
+  li a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 0;
+    border-top: 1px solid var(--line);
+    font: 600 clamp(24px, 3vw, 36px) / 1 var(--font-display);
+    letter-spacing: -0.03em;
+    text-decoration: none;
+    transition: color 0.2s, padding 0.3s var(--ease);
+  }
+  li a :global(svg) {
+    width: 0.7em;
+    height: 0.7em;
+  }
+  li a:hover {
+    color: var(--accent);
+    padding-left: 12px;
+  }
+</style>

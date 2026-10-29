@@ -101,7 +101,7 @@ const galleryLarge = await Promise.all(
         {
           projects.map((p, i) => (
             <li class="row rv">
-              <a href={`/work/${p.slug}/`} class="row-link">
+              <a href={`/work/${p.slug}/`} class="row-link" data-cursor="View case">
                 <div class="row-title">
                   <span class="label">0{i + 1}</span>
                   <h3>{p.title}</h3>
@@ -121,7 +121,7 @@ const galleryLarge = await Promise.all(
                     View case study <Arrow />
                   </span>
                 </div>
-                <div class="row-img frame wipe">
+                <div class="row-img frame wipe" transition:name={`cover-${p.slug}`}>
                   <Image
                     src={img(p.cover)}
                     alt={`${p.title} preview`}
@@ -149,7 +149,7 @@ const galleryLarge = await Promise.all(
         {
           gallery.map((g, i) => (
             <figure class={`gal-item rv g${i}`} style={`--d:${(i % 3) * 0.08}s`}>
-              <button class="gal-open" type="button" data-index={i} aria-label={`View ${g.title} larger`}>
+              <button class="gal-open" type="button" data-cursor="Expand" data-index={i} aria-label={`View ${g.title} larger`}>
                 <div class="frame wipe">
                   <Image src={img(g.image)} alt={g.title} widths={[500, 900]} sizes="(max-width: 700px) 92vw, 33vw" />
                 </div>
@@ -261,7 +261,13 @@ const galleryLarge = await Promise.all(
       <h2 class="contact-h" data-split>
         Ready to design products <span class="muted">that people trust?</span>
       </h2>
-      <a class="mail rv" href={profile.links.email}>{profile.email}</a>
+      <div class="mail-row rv">
+        <a class="mail" href={profile.links.email}>{profile.email}</a>
+        <button class="copy" type="button" data-copy={profile.email} aria-label="Copy email address">
+          <span class="copy-text">Copy</span>
+        </button>
+      </div>
+      <p class="toast" role="status" aria-live="polite"></p>
       <div class="contact-row rv">
         <a class="btn btn-solid" href={profile.links.whatsapp} target="_blank" rel="noopener">Chat on WhatsApp <Arrow /></a>
         <a class="btn" href={profile.links.linkedin} target="_blank" rel="noopener">LinkedIn</a>
@@ -273,59 +279,81 @@ const galleryLarge = await Promise.all(
 
 <script>
   // Gallery lightbox: click a screen to view it large; arrows/keys to move, Esc or backdrop to close.
-  const items: { src: string; title: string; tag: string }[] = JSON.parse(
-    document.getElementById("gallery-data")!.textContent!,
-  );
-  const box = document.querySelector<HTMLDialogElement>(".lightbox")!;
-  const image = box.querySelector<HTMLImageElement>(".lb-img")!;
-  const title = box.querySelector<HTMLElement>(".lb-title")!;
-  const meta = box.querySelector<HTMLElement>(".lb-meta")!;
-  let current = 0;
-  let opener: HTMLElement | null = null;
+  // Set up on each page load (page transitions don't reload the page).
+  document.addEventListener("astro:page-load", () => {
+    const data = document.getElementById("gallery-data");
+    if (!data) return;
+    const items: { src: string; title: string; tag: string }[] = JSON.parse(data.textContent!);
+    const box = document.querySelector<HTMLDialogElement>(".lightbox")!;
+    const image = box.querySelector<HTMLImageElement>(".lb-img")!;
+    const title = box.querySelector<HTMLElement>(".lb-title")!;
+    const meta = box.querySelector<HTMLElement>(".lb-meta")!;
+    let current = 0;
+    let opener: HTMLElement | null = null;
 
-  const show = (i: number) => {
-    current = (i + items.length) % items.length;
-    const item = items[current];
-    image.src = item.src;
-    image.alt = item.title;
-    title.textContent = item.title;
-    meta.textContent = `${item.tag} · ${current + 1} / ${items.length}`;
-  };
+    const show = (i: number) => {
+      current = (i + items.length) % items.length;
+      const item = items[current];
+      image.src = item.src;
+      image.alt = item.title;
+      title.textContent = item.title;
+      meta.textContent = `${item.tag} · ${current + 1} / ${items.length}`;
+    };
 
-  document.querySelectorAll<HTMLButtonElement>(".gal-open").forEach((btn) =>
-    btn.addEventListener("click", () => {
-      opener = btn;
-      show(Number(btn.dataset.index));
-      box.showModal();
-      document.documentElement.style.overflow = "hidden";
-    }),
-  );
+    document.querySelectorAll<HTMLButtonElement>(".gal-open").forEach((btn) =>
+      btn.addEventListener("click", () => {
+        opener = btn;
+        show(Number(btn.dataset.index));
+        box.showModal();
+        document.documentElement.style.overflow = "hidden";
+      }),
+    );
 
-  // Restore page scroll and focus. Called directly rather than relying on the dialog's async "close" event.
-  const closeBox = () => {
-    if (box.open) box.close();
-    document.documentElement.style.overflow = "";
-    opener?.focus();
-    opener = null;
-  };
+    // Restore page scroll and focus. Called directly rather than relying on the dialog's async "close" event.
+    const closeBox = () => {
+      if (box.open) box.close();
+      document.documentElement.style.overflow = "";
+      opener?.focus();
+      opener = null;
+    };
 
-  box.querySelector(".lb-prev")!.addEventListener("click", () => show(current - 1));
-  box.querySelector(".lb-next")!.addEventListener("click", () => show(current + 1));
-  box.querySelector(".lb-close")!.addEventListener("click", closeBox);
-  // clicking the dimmed area (the dialog itself, not its contents) closes it
-  box.addEventListener("click", (e) => {
-    if (e.target === box || e.target === box.querySelector(".lb-fig")) closeBox();
+    box.querySelector(".lb-prev")!.addEventListener("click", () => show(current - 1));
+    box.querySelector(".lb-next")!.addEventListener("click", () => show(current + 1));
+    box.querySelector(".lb-close")!.addEventListener("click", closeBox);
+    // clicking the dimmed area (the dialog itself, not its contents) closes it
+    box.addEventListener("click", (e) => {
+      if (e.target === box || e.target === box.querySelector(".lb-fig")) closeBox();
+    });
+    box.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowLeft") show(current - 1);
+      if (e.key === "ArrowRight") show(current + 1);
+    });
+    // Esc
+    box.addEventListener("cancel", (e) => {
+      e.preventDefault();
+      closeBox();
+    });
+    box.addEventListener("close", closeBox);
   });
-  box.addEventListener("keydown", (e) => {
-    if (e.key === "ArrowLeft") show(current - 1);
-    if (e.key === "ArrowRight") show(current + 1);
+
+  // Copy email with a confirmation toast
+  document.addEventListener("click", async (e) => {
+    const btn = (e.target as Element).closest<HTMLButtonElement>("[data-copy]");
+    if (!btn) return;
+    const toast = document.querySelector<HTMLElement>(".toast");
+    try {
+      await navigator.clipboard.writeText(btn.dataset.copy!);
+      btn.querySelector(".copy-text")!.textContent = "Copied";
+      if (toast) toast.textContent = "Email copied to your clipboard";
+    } catch {
+      if (toast) toast.textContent = "Couldn't copy, select the address instead";
+    }
+    toast?.classList.add("show");
+    setTimeout(() => {
+      toast?.classList.remove("show");
+      btn.querySelector(".copy-text")!.textContent = "Copy";
+    }, 2200);
   });
-  // Esc
-  box.addEventListener("cancel", (e) => {
-    e.preventDefault();
-    closeBox();
-  });
-  box.addEventListener("close", closeBox);
 </script>
 
 <style>
@@ -936,6 +964,47 @@ const galleryLarge = await Promise.all(
   .mail:hover {
     color: var(--accent);
     text-underline-offset: 12px;
+  }
+  .mail-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 18px;
+  }
+  .copy {
+    padding: 9px 16px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--muted);
+    font: 500 12px/1 var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s, background-color 0.2s;
+  }
+  .copy:hover {
+    color: var(--ink);
+    border-color: var(--ink);
+  }
+  .toast {
+    position: fixed;
+    left: 50%;
+    bottom: 28px;
+    z-index: 80;
+    translate: -50% 20px;
+    padding: 12px 18px;
+    border-radius: 999px;
+    background: var(--ink);
+    color: var(--bg);
+    font-size: 14px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s, translate 0.4s var(--ease);
+  }
+  .toast.show {
+    opacity: 1;
+    translate: -50% 0;
   }
   .contact-row {
     display: flex;

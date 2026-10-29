@@ -1,13 +1,16 @@
 ---
+import { ClientRouter } from "astro:transitions";
 import "../styles/global.css";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
+import Cursor from "../components/Cursor.astro";
 
 interface Props {
   title: string;
   description: string;
 }
 const { title, description } = Astro.props;
+const ogImage = new URL("/og.png", Astro.site ?? Astro.url).href;
 ---
 
 <!doctype html>
@@ -20,6 +23,11 @@ const { title, description } = Astro.props;
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={ogImage} />
     <meta name="theme-color" content="#111110" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -30,17 +38,24 @@ const { title, description } = Astro.props;
     />
     <script is:inline>
       // Set theme before paint to avoid a flash. Dark is the default.
+      // Page transitions replace <html>'s attributes, so re-apply after every swap.
       (function () {
-        var t = null;
-        try { t = localStorage.getItem("theme"); } catch (e) {}
-        if (t === "light" || t === "dark") document.documentElement.dataset.theme = t;
-        document.documentElement.classList.add("js");
+        var apply = function (doc) {
+          var t = null;
+          try { t = localStorage.getItem("theme"); } catch (e) {}
+          if (t === "light" || t === "dark") doc.documentElement.dataset.theme = t;
+          doc.documentElement.classList.add("js");
+        };
+        apply(document);
+        document.addEventListener("astro:before-swap", function (e) { apply(e.newDocument); });
       })();
     </script>
+    <ClientRouter />
   </head>
   <body>
     <a class="skip" href="#main">Skip to content</a>
     <div class="progress" aria-hidden="true"></div>
+    <Cursor />
     <Nav />
     <main id="main">
       <slot />

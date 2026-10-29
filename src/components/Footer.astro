@@ -27,10 +27,20 @@ const year = new Date().getFullYear();
     <p class="name" aria-hidden="true" data-drift="-0.15">{profile.firstName} {profile.lastName}</p>
     <div class="base label">
       <span>© {year} {profile.fullName}</span>
-      <span>{profile.location}</span>
+      <span>Currently: Product Designer at Rex Insurance</span>
+      <span>{profile.location} · <time data-clock>--:--</time> WAT</span>
     </div>
   </div>
 </footer>
+
+<script>
+  // Live local time in Lagos. Queries each tick, so it keeps working after page transitions.
+  const fmt = new Intl.DateTimeFormat("en-GB", { hour: "2-digit", minute: "2-digit", timeZone: "Africa/Lagos" });
+  const tick = () => document.querySelectorAll("[data-clock]").forEach((el) => (el.textContent = fmt.format(new Date())));
+  tick();
+  setInterval(tick, 15000);
+  document.addEventListener("astro:page-load", tick);
+</script>
 
 <style>
   .foot {
@@ -69,6 +79,7 @@ const year = new Date().getFullYear();
   }
   .base {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     gap: 12px;
     padding: 20px 0 28px;
