@@ -6,11 +6,11 @@ import { profile, collaborators, stats, about, experience, services, process, ga
 import { projects } from "../data/projects";
 import { img } from "../lib/images";
 
-// Large versions of the gallery screens for the lightbox
+// Full-length pages for the lightbox
 const galleryLarge = await Promise.all(
   gallery.map(async (g) => {
-    const big = await getImage({ src: img(g.image), width: 2000, format: "webp" });
-    return { src: big.src, title: g.title, tag: g.tag };
+    const pages = await Promise.all(g.pages.map((p) => getImage({ src: img(p), width: 1400, format: "webp" })));
+    return { pages: pages.map((p) => p.src), title: g.title, tag: g.tag, url: g.url };
   }),
 );
 ---
@@ -172,10 +172,11 @@ const galleryLarge = await Promise.all(
         <button class="lb-btn lb-close" type="button" aria-label="Close preview">✕</button>
         <button class="lb-btn lb-prev" type="button" aria-label="Previous screen">←</button>
         <figure class="lb-fig">
-          <img class="lb-img" alt="" />
+          <div class="lb-scroll" tabindex="0"></div>
           <figcaption class="lb-cap">
             <span class="lb-title"></span>
             <span class="label lb-meta"></span>
+            <a class="lb-link link-u" target="_blank" rel="noopener">View on Behance ↗</a>
           </figcaption>
         </figure>
         <button class="lb-btn lb-next" type="button" aria-label="Next screen">→</button>
@@ -283,21 +284,32 @@ const galleryLarge = await Promise.all(
   document.addEventListener("astro:page-load", () => {
     const data = document.getElementById("gallery-data");
     if (!data) return;
-    const items: { src: string; title: string; tag: string }[] = JSON.parse(data.textContent!);
+    const items: { pages: string[]; title: string; tag: string; url: string }[] = JSON.parse(data.textContent!);
     const box = document.querySelector<HTMLDialogElement>(".lightbox")!;
-    const image = box.querySelector<HTMLImageElement>(".lb-img")!;
+    const scroller = box.querySelector<HTMLElement>(".lb-scroll")!;
     const title = box.querySelector<HTMLElement>(".lb-title")!;
     const meta = box.querySelector<HTMLElement>(".lb-meta")!;
+    const link = box.querySelector<HTMLAnchorElement>(".lb-link")!;
     let current = 0;
     let opener: HTMLElement | null = null;
 
+    // Show every page of the design stacked in a scrollable column, starting from the top
     const show = (i: number) => {
       current = (i + items.length) % items.length;
       const item = items[current];
-      image.src = item.src;
-      image.alt = item.title;
+      scroller.replaceChildren(
+        ...item.pages.map((src, n) => {
+          const page = document.createElement("img");
+          page.src = src;
+          page.alt = item.pages.length > 1 ? `${item.title}, page ${n + 1}` : item.title;
+          page.decoding = "async";
+          return page;
+        }),
+      );
+      scroller.scrollTop = 0;
       title.textContent = item.title;
       meta.textContent = `${item.tag} · ${current + 1} / ${items.length}`;
+      link.href = item.url;
     };
 
     document.querySelectorAll<HTMLButtonElement>(".gal-open").forEach((btn) =>
@@ -815,18 +827,36 @@ const galleryLarge = await Promise.all(
     justify-items: center;
     align-items: center;
   }
-  .lb-img {
-    max-width: 100%;
+  /* Full-length design: scroll down the page inside the lightbox */
+  .lb-scroll {
+    width: min(1100px, 100%);
+    height: 100%;
     max-height: calc(100dvh - 2 * clamp(16px, 4vw, 56px) - 48px);
-    object-fit: contain;
-    border-radius: 4px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    border-radius: 6px;
     box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+    background: #1a1a18;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(232, 230, 223, 0.35) transparent;
+  }
+  .lb-scroll :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .lb-scroll:focus-visible {
+    outline: 2px solid var(--accent);
   }
   .lb-cap {
     display: flex;
+    flex-wrap: wrap;
     gap: 16px;
     align-items: baseline;
     font-size: 15px;
+  }
+  .lb-link {
+    color: #e8e6df;
   }
   .lb-meta {
     color: #8f8d85;
@@ -859,6 +889,8 @@ const galleryLarge = await Promise.all(
     aspect-ratio: 4 / 3;
   }
   .gal-item img {
+    /* thumbnails of long pages show the top of the design */
+    object-position: top center;
     transition: transform 0.9s var(--ease);
   }
   .gal-item:hover img {
@@ -877,6 +909,12 @@ const galleryLarge = await Promise.all(
   .g0 .frame {
     aspect-ratio: auto;
     height: 100%;
+    position: relative;
+  }
+  /* taken out of flow so a long page can't stretch the tile; the row height comes from its neighbour */
+  .g0 .frame img {
+    position: absolute;
+    inset: 0;
   }
 
   /* Process */
@@ -1192,7 +1230,7 @@ const galleryLarge = await Promise.all(
     .lb-next {
       right: 16px;
     }
-    .lb-img {
+    .lb-scroll {
       max-height: calc(100dvh - 180px);
     }
     .g0 .frame {

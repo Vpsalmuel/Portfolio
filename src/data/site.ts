@@ -94,10 +94,41 @@ export const process = [
   },
 ];
 
+/** `image` is the grid thumbnail; `pages` are the full-length designs shown (stacked, scrollable) in the lightbox. */
 export const gallery = [
-  { image: "losode-designer-jide.png", title: "Losode — Designer storefront", tag: "Commerce / Web" },
-  { image: "memoria-hero.png", title: "Beauty Memoria", tag: "E-commerce / Web" },
-  { image: "the-society.png", title: "The Society", tag: "E-commerce / Web" },
-  { image: "fintech-cards.png", title: "Muse App", tag: "Fintech / Mobile" },
-  { image: "nature-landing.png", title: "Nature landing page", tag: "Web / Landing" },
+  {
+    image: "full-hub-1.png",
+    pages: ["full-hub-1.png", "full-hub-2.png", "full-hub-3.png"],
+    title: "Losode — Designer video hub",
+    tag: "Commerce / Web",
+    url: "https://www.behance.net/gallery/254040071/Loode-Designer-Video-Hub",
+  },
+  {
+    image: "memoria-hero.png",
+    pages: ["full-beauty.jpg"],
+    title: "Beauty Memoria",
+    tag: "E-commerce / Web",
+    url: "https://www.behance.net/gallery/178955723/Beauty-Memoria",
+  },
+  {
+    image: "the-society.png",
+    pages: ["full-society.jpg"],
+    title: "The Society",
+    tag: "E-commerce / Web",
+    url: "https://www.behance.net/gallery/179213875/TheSociety",
+  },
+  {
+    image: "full-gym.jpg",
+    pages: ["full-gym.jpg"],
+    title: "Gym Redefined",
+    tag: "Fitness / Web",
+    url: "https://www.behance.net/gallery/179451563/Gym-Redefinded",
+  },
+  {
+    image: "nature-landing.png",
+    pages: ["full-nature.jpg"],
+    title: "Nature landing page",
+    tag: "Web / Landing",
+    url: "https://www.behance.net/gallery/179009623/Nature-Landig-Page",
+  },
 ];
