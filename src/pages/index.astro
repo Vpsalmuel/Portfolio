@@ -620,7 +620,8 @@ const galleryLarge = await Promise.all(
     display: grid;
     grid-template-columns: repeat(12, 1fr);
     column-gap: var(--gutter);
-    padding: 24px 0;
+    /* inner breathing room so title, copy and scope don't sit on the card edge */
+    padding: clamp(24px, 3vw, 40px) clamp(20px, 3vw, 44px);
     text-decoration: none;
     transform-origin: 50% 0;
   }
@@ -631,6 +632,8 @@ const galleryLarge = await Promise.all(
       position: sticky;
       top: calc(84px + var(--k) * 28px);
       background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: 10px;
       box-shadow: 0 -28px 48px -28px rgba(0, 0, 0, 0.55);
     }
     :global([data-theme="light"]) .row {
