@@ -423,12 +423,12 @@ const galleryLarge = await Promise.all(
     mask-position: var(--wx) var(--wy);
     --wave: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200' preserveAspectRatio='none'%3E%3Cpath d='M0 100 Q25 88 50 100 T100 100 T150 100 T200 100 V200 H0 Z'/%3E%3C/svg%3E");
     --wy: 0%;
-    transition: --wy 0.7s cubic-bezier(0.5, 0, 0.75, 0);
-    animation: wave 1.6s linear infinite;
+    transition: --wy 1.2s cubic-bezier(0.5, 0, 0.75, 0);
+    animation: wave 2.6s linear infinite;
   }
   .ch:hover::after {
     --wy: 108%;
-    transition: --wy 0.9s var(--ease);
+    transition: --wy 1.6s var(--ease);
   }
   @keyframes wave {
     from {
