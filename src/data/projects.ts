@@ -400,10 +400,10 @@ export const projects: Project[] = [
             type: "images",
             layout: "phones",
             items: [
-              { image: "rex-insurance-policy-details.png", caption: "Policy detail with documents, agent contact and a one-tap claim." },
+              { image: "rex-insurance-policy-details.png", caption: "Policy detail: cover dates, one-tap renew, update, claim or support, and the insured vehicle." },
               { image: "rex-insurance-payment.png", caption: "Payments: history, premium breakdown and references." },
               { image: "rex-insurance-track-claims.png", caption: "Claim tracking with a timeline and incident details." },
-              { image: "rex-insurance-sign-up.png", caption: "Sign-up: three fields and a clear next step." },
+              { image: "rex-insurance-sign-up.png", caption: "Log in: two fields, remember me, and a clear route to sign up." },
             ],
           },
         ],
