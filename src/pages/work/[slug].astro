@@ -48,6 +48,12 @@ const minutes = Math.max(1, Math.round(words / 200));
                   <a class="link-u" href={p.live} target="_blank" rel="noopener">
                     {p.liveLabel ?? p.live.replace(/^https?:\/\/(www\.)?/, "")} ↗
                   </a>
+                  {p.live2 && (
+                    <>
+                      {" · "}
+                      <a class="link-u" href={p.live2} target="_blank" rel="noopener">{p.live2Label} ↗</a>
+                    </>
+                  )}
                 </dd>
               </div>
             )
@@ -152,7 +158,7 @@ const minutes = Math.max(1, Math.round(words / 200));
                 )}
 
                 {b.type === "images" && (
-                  <div class={`imgs imgs-${b.layout}`}>
+                  <div class={`imgs imgs-${b.layout}`} style={b.layout === "phones" ? `--n:${b.items.length}` : undefined}>
                     {b.items.map((m) => (
                       <figure>
                         <div class={`frame wipe${m.fit === "contain" ? " contain" : ""}`}>
@@ -431,7 +437,7 @@ const minutes = Math.max(1, Math.round(words / 200));
     line-height: 1.45;
   }
   .imgs-phones {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(var(--n, 4), 1fr);
   }
   .imgs-phones .frame {
     aspect-ratio: 9 / 19;

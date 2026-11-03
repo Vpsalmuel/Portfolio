@@ -31,6 +31,8 @@ export type Project = {
   meta: { k: string; v: string }[];
   live?: string;
   liveLabel?: string;
+  live2?: string;
+  live2Label?: string;
   cover: string;
   sections: Section[];
 };
@@ -307,7 +309,9 @@ export const projects: Project[] = [
       { k: "Status", v: "Live on App Store & Google Play" },
     ],
     live: "https://play.google.com/store/apps/details?id=com.rexinsure.rexverse",
-    liveLabel: "Get it on Google Play",
+    liveLabel: "Google Play",
+    live2: "https://apps.apple.com/ng/app/rexverse/id6762462868",
+    live2Label: "App Store",
     cover: "rex-cover-clean.jpg",
     sections: [
       {
@@ -575,7 +579,15 @@ export const projects: Project[] = [
             layout: "phones",
             items: [
               { image: "losode-home-mobile.jpg", caption: "Home, mobile" },
-              { image: "losode-pdp-mobile.png", caption: "Product detail, mobile" },
+              { image: "losode-new-in-mobile.jpg", caption: "New In: filters, sort and an item count up front" },
+              { image: "losode-storefront-mobile.jpg", caption: "Designer storefront: each label's own banner, logo and catalogue" },
+            ],
+          },
+          {
+            type: "images",
+            layout: "phones",
+            items: [
+              { image: "losode-product-mobile.jpg", caption: "Product detail, mobile" },
               { image: "losode-cart-mobile.jpg", caption: "Shopping bag, grouped by designer" },
               { image: "losode-checkout-mobile.jpg", caption: "Single-screen checkout" },
             ],
