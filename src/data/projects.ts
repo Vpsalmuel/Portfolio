@@ -400,7 +400,7 @@ export const projects: Project[] = [
             type: "images",
             layout: "phones",
             items: [
-              { image: "rex-insurance-policy-details.png", caption: "Policy detail: cover dates, one-tap renew, update, claim or support, and the insured vehicle." },
+              { image: "rex-insurance-policy-details.png", caption: "Policy detail: cover dates, one-tap renew, support or claim, and the insured vehicle." },
               { image: "rex-insurance-payment.png", caption: "Payments: history, premium breakdown and references." },
               { image: "rex-insurance-track-claims.png", caption: "Claim tracking with a timeline and incident details." },
               { image: "rex-insurance-sign-up.png", caption: "Log in: two fields, remember me, and a clear route to sign up." },
@@ -571,10 +571,10 @@ export const projects: Project[] = [
             type: "images",
             layout: "phones",
             items: [
+              { image: "losode-home-mobile.jpg", caption: "Home, mobile" },
               { image: "losode-pdp-mobile.png", caption: "Product detail, mobile" },
-              { image: "losode-cart.png", caption: "Cart" },
-              { image: "losode-checkout.png", caption: "Single-screen checkout" },
-              { image: "losode-mobile-fallback.jpg", caption: "Mobile shop" },
+              { image: "losode-cart-mobile.jpg", caption: "Shopping bag, grouped by designer" },
+              { image: "losode-checkout-mobile.jpg", caption: "Single-screen checkout" },
             ],
           },
           { type: "images", layout: "wide", items: [{ image: "losode-designer-jide.png", caption: "Designer storefront: Jide Anthony" }] },
