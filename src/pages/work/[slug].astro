@@ -46,7 +46,7 @@ const minutes = Math.max(1, Math.round(words / 200));
                 <dt class="label">Live</dt>
                 <dd>
                   <a class="link-u" href={p.live} target="_blank" rel="noopener">
-                    {p.live.replace(/^https?:\/\/(www\.)?/, "")} ↗
+                    {p.liveLabel ?? p.live.replace(/^https?:\/\/(www\.)?/, "")} ↗
                   </a>
                 </dd>
               </div>

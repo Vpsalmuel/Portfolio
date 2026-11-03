@@ -30,6 +30,7 @@ export type Project = {
   tags: string[];
   meta: { k: string; v: string }[];
   live?: string;
+  liveLabel?: string;
   cover: string;
   sections: Section[];
 };
@@ -305,6 +306,8 @@ export const projects: Project[] = [
       { k: "Platform", v: "iOS & Android" },
       { k: "Status", v: "Live on App Store & Google Play" },
     ],
+    live: "https://play.google.com/store/apps/details?id=com.rexinsure.rexverse",
+    liveLabel: "Get it on Google Play",
     cover: "rex-cover-clean.jpg",
     sections: [
       {
