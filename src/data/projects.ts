@@ -99,6 +99,27 @@ export const projects: Project[] = [
         ],
       },
       {
+        label: "Constraints",
+        title: "No brief, no users on tap, and a new domain",
+        blocks: [
+          {
+            type: "text",
+            body: [
+              "The brief was one line: design an API gateway portal. There was no product requirements document, and it was the first developer platform I had designed.",
+            ],
+          },
+          {
+            type: "cards",
+            items: [
+              { title: "A domain I had to learn first", body: "Before drawing anything, I studied how API gateways work: keys, rate limits, policies, environments and how developers actually test an endpoint." },
+              { title: "No requirements document", body: "I wrote the scope myself from that research: what an admin must control, what a partner must be able to do alone, and what both sides need to see." },
+              { title: "Users outside the building", body: "Most users are partners at other companies, so I couldn't simply walk over and ask. Every chance to talk to them, and every test with them, had to count." },
+              { title: "Two products in one", body: "The admin and partner portals serve different people with different goals, but had to feel like one system and share the same data." },
+            ],
+          },
+        ],
+      },
+      {
         label: "Goals",
         title: "What the platform had to do",
         blocks: [
@@ -198,6 +219,25 @@ export const projects: Project[] = [
         ],
       },
       {
+        label: "Decisions",
+        title: "How I chose between options",
+        blocks: [
+          {
+            type: "cards",
+            items: [
+              {
+                title: "One test for every option",
+                body: "Most screens had two or more directions. I kept the one that answered a single question: can someone land here and know where to go next? Manage Users is an example. The version I kept puts every partner, their usage and status in one table, instead of spreading it across pages.",
+              },
+              {
+                title: "Holding the line with my manager",
+                body: "Some designs got pushback from my manager. I walked him through why each route made the platform easier for partners to use, and held firm on that standard where it mattered, because a confusing gateway sends partners straight back to email.",
+              },
+            ],
+          },
+        ],
+      },
+      {
         label: "Impact",
         title: "Results",
         blocks: [
@@ -212,7 +252,20 @@ export const projects: Project[] = [
           {
             type: "text",
             body: [
+              "How it was measured: before launch, onboarding a partner meant forms, email threads and a developer wiring the integration by hand. Now Rex's team only needs a partner's name and the APIs they should access, and the partner is set up on the platform. Since launch, five more partners have been onboarded this way.",
               "With keys, docs and testing self-serve, the team saw fewer support tickets, fewer emails and faster responses when issues did come up, because both sides can see the same traffic and errors.",
+            ],
+          },
+        ],
+      },
+      {
+        label: "What's next",
+        title: "Watch how partners really use it",
+        blocks: [
+          {
+            type: "text",
+            body: [
+              "Next, I'd watch how partners actually use the platform and run usability tests on the key tasks: finding an API, reading the docs, testing a call. I'd log every point of friction, rank them, and fix the biggest ones first. A gateway is never finished. Each new partner is a chance to make it easier for the next.",
             ],
           },
         ],

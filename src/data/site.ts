@@ -26,7 +26,7 @@ export const stats = [
   { value: "5+", label: "Years designing products" },
   { value: "+30%", label: "Completed transactions on Rex's website" },
   { value: "−25%", label: "Drop-off on Rex's website" },
-  { value: "+40%", label: "Task completion at Techaven" },
+  { value: "5+", label: "Partners onboarded onto Rex's API gateway" },
 ];
 
 export const about = {
@@ -50,7 +50,7 @@ export const experience = [
     org: "Techaven",
     role: "UI/UX Designer",
     dates: "2024 — 2025",
-    note: "Full redesign of a mobile betting app. Task completion up 40%.",
+    note: "Full redesign of a mobile betting app, simplifying the core betting and account flows.",
   },
   {
     org: "Losode",
