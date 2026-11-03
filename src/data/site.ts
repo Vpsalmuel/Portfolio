@@ -23,9 +23,9 @@ export const profile = {
 export const collaborators = ["Rex Insurance", "Losode", "Techaven", "Paddi.ng"];
 
 export const stats = [
-  { value: "4+", label: "Years designing products" },
-  { value: "+30%", label: "Completed transactions at Rex" },
-  { value: "−25%", label: "User drop-off at Rex" },
+  { value: "5+", label: "Years designing products" },
+  { value: "+30%", label: "Completed transactions on Rex's website" },
+  { value: "−25%", label: "Drop-off on Rex's website" },
   { value: "+40%", label: "Task completion at Techaven" },
 ];
 
@@ -56,7 +56,7 @@ export const experience = [
     org: "Losode",
     role: "UI/UX Designer",
     dates: "2022 — 2024",
-    note: "Rebuilt losode.com end to end, buyer and seller. Retention up 25%.",
+    note: "Rebuilt losode.com end to end, buyer and seller. About 70% more designers onboarded.",
   },
   {
     org: "University of Lagos",
@@ -66,13 +66,38 @@ export const experience = [
   },
 ];
 
+/** Services and capabilities. Each one points to the case study that proves it. */
 export const services = [
-  "Product design",
-  "Enterprise dashboards",
-  "Mobile apps",
-  "Design systems",
-  "UX writing",
-  "Prototyping",
+  {
+    title: "Product design, end to end",
+    body: "From a messy brief to shipped screens: research, flows, UI and the decisions in between, for products people rely on.",
+    deliverables: ["Research & flows", "UI design", "Prototypes"],
+    proof: { label: "Rex Insurance app", slug: "rex-insurance" },
+  },
+  {
+    title: "Enterprise & B2B platforms",
+    body: "Admin portals, partner dashboards and developer tools that turn manual, email-driven work into self-serve products.",
+    deliverables: ["Dashboards", "Role & access flows", "Developer UX"],
+    proof: { label: "Rex API Gateway", slug: "api-gateway" },
+  },
+  {
+    title: "Mobile apps",
+    body: "iOS and Android apps for money and cover: buying, claiming, splitting and paying, designed for one hand and a weak signal.",
+    deliverables: ["App flows", "UI kit", "Usability tests"],
+    proof: { label: "Divvy", slug: "divvy" },
+  },
+  {
+    title: "Design systems",
+    body: "Components and tokens that absorb messy real-world data and keep thirty-plus screens consistent as the product grows.",
+    deliverables: ["Components", "Tokens", "Usage docs"],
+    proof: { label: "Losode marketplace", slug: "losode" },
+  },
+  {
+    title: "UX writing & handover",
+    body: "Plain-language interfaces, plus the annotated screens, user guides and specs that make sure engineering builds what was designed.",
+    deliverables: ["Microcopy", "Specs", "User guides"],
+    proof: { label: "Rex Insurance app", slug: "rex-insurance" },
+  },
 ];
 
 export const process = [

@@ -18,6 +18,8 @@ export type Section = { label: string; title: string; blocks: Block[] };
 export type Project = {
   slug: string;
   title: string;
+  /** One-line result shown on the homepage card */
+  outcome: string;
   year: string;
   category: string;
   summary: string;
@@ -34,171 +36,8 @@ export type Project = {
 
 export const projects: Project[] = [
   {
-    slug: "rex-insurance",
-    title: "Rex Insurance",
-    year: "2025 — Now",
-    category: "Insurance · Mobile",
-    summary:
-      "The official Rex Insurance app. Policies, claims and renewals in a few calm taps, for people who have never read a policy document.",
-    headline:
-      "Leading design on Rex Insurance's mobile app: buying cover, filing claims and renewing, without calling an agent.",
-    glance: {
-      challenge:
-        "Insurance ran on agents and paperwork. Customers couldn't see what they were covered for, renewals lapsed silently, and claims were a black box.",
-      role: "Led end-to-end design of the official mobile app: flows, UI, design system, accessibility, and the documentation engineering built from.",
-      impact: "+30% completed transactions and −25% drop-off across policy purchase and claims, with WCAG 2.1 applied across the product.",
-    },
-    scope: ["Product design", "Mobile app", "Design system"],
-    tags: ["UX", "UI", "Mobile", "WCAG 2.1"],
-    meta: [
-      { k: "Role", v: "Lead product designer" },
-      { k: "Company", v: "Rex Insurance" },
-      { k: "Timeline", v: "May 2025 — now" },
-      { k: "Platform", v: "iOS & Android" },
-      { k: "Status", v: "Shipped, iterating" },
-    ],
-    cover: "rex-insurance-cover.webp",
-    sections: [
-      {
-        label: "Overview",
-        title: "Insurance people can run themselves",
-        blocks: [
-          {
-            type: "text",
-            body: [
-              "Most people deal with their insurer twice: when they buy cover and when something goes wrong. Both moments used to be paper-heavy and routed through an agent on the phone.",
-              "I led the end-to-end design of the Rex Insurance mobile app, covering onboarding, policy purchase, claims and account management, alongside a redesign of the public website.",
-            ],
-          },
-        ],
-      },
-      {
-        label: "Problem",
-        title: "Opaque, agent-driven and easy to lapse",
-        blocks: [
-          {
-            type: "text",
-            body: [
-              "Customers rarely understood what they were covered for or how to file a claim. Renewals lapsed silently, claim documents got lost in WhatsApp threads, and people often learned what their plan excluded at the worst possible moment.",
-            ],
-          },
-          {
-            type: "cards",
-            items: [
-              { title: "Jargon-heavy policies", body: "Coverage and exclusions buried in PDFs nobody reads." },
-              { title: "Claims as a black box", body: "No idea who is reviewing a claim, what stage it is at, or how long it will take." },
-              { title: "Silent renewals", body: "Policies lapse without warning, discovered only at claim time." },
-              { title: "Agent dependency", body: "Even updating a phone number needed a call or an email." },
-            ],
-          },
-        ],
-      },
-      {
-        label: "Goals",
-        title: "What the app had to do",
-        blocks: [
-          {
-            type: "goals",
-            items: [
-              "Buy a policy end to end on mobile in under five minutes.",
-              "Make what's covered, and what isn't, readable at a glance.",
-              "Guide claims step by step, with photo upload and visible status.",
-              "Surface renewals and open claims on the home screen so nothing lapses.",
-              "Scale to health, auto, gadget and travel cover from day one.",
-            ],
-          },
-        ],
-      },
-      {
-        label: "Flow",
-        title: "Sign-up that verifies, then gets out of the way",
-        blocks: [
-          {
-            type: "text",
-            body: [
-              "Returning policyholders verify with phone and OTP and land on their dashboard. New customers complete KYC, set a password and buy their first policy. A failed OTP offers resend and loops back into verification.",
-            ],
-          },
-          { type: "images", layout: "wide", items: [{ image: "rex-insurance-signup-flow.png", caption: "Sign-up and onboarding flow" }] },
-        ],
-      },
-      {
-        label: "Final design",
-        title: "Active cover first, everything else one tap away",
-        blocks: [
-          {
-            type: "images",
-            layout: "phones",
-            items: [
-              { image: "rex-insurance-home-screen.png", caption: "Home: active policies, renewal countdowns and in-progress claims." },
-              { image: "rex-insurance-new-policy.png", caption: "New policy: browse cover types, with guidance when unsure." },
-              { image: "rex-insurance-claims.png", caption: "Claims: every claim, filterable by status, with payouts." },
-              { image: "rex-insurance-my-policies.png", caption: "My policies: active, renewal-due and expired, with quick actions." },
-            ],
-          },
-          {
-            type: "images",
-            layout: "phones",
-            items: [
-              { image: "rex-insurance-policy-details.png", caption: "Policy detail with documents, agent contact and a one-tap claim." },
-              { image: "rex-insurance-payment.png", caption: "Payments: history, premium breakdown and references." },
-              { image: "rex-insurance-track-claims.png", caption: "Claim tracking with a timeline and incident details." },
-              { image: "rex-insurance-sign-up.png", caption: "Sign-up: three fields and a clear next step." },
-            ],
-          },
-        ],
-      },
-      {
-        label: "Decisions",
-        title: "The choices that shaped it",
-        blocks: [
-          {
-            type: "cards",
-            items: [
-              { title: "Lead with active cover, not marketing", body: "Home shows what you own and what needs attention. New products sit one tap away, never front and centre." },
-              { title: "Plain language everywhere", body: "Every policy detail is rewritten in human terms. Formal wording is available on tap, never the default." },
-              { title: "A claim wizard with visible progress", body: "Short steps and a progress bar, so nobody feels lost in the middle of an incident." },
-              { title: "Renewals as service, not upsell", body: "Renewal notices read as quiet service messages, kept structurally apart from anything promotional." },
-            ],
-          },
-        ],
-      },
-      {
-        label: "Impact",
-        title: "Results",
-        blocks: [
-          {
-            type: "stats",
-            items: [
-              { value: "+30%", label: "Completed transactions after simplifying policy purchase and claims" },
-              { value: "−25%", label: "User drop-off across redesigned customer touchpoints" },
-              { value: "WCAG 2.1", label: "Accessibility applied across product screens" },
-            ],
-          },
-          {
-            type: "text",
-            body: [
-              "The app shipped with a full documentation set: feature list, user guide, feature deck and annotated screens, so product, engineering and stakeholders worked from the same source.",
-            ],
-          },
-        ],
-      },
-      {
-        label: "Reflection",
-        title: "Insurance is a trust product",
-        blocks: [
-          {
-            type: "text",
-            body: [
-              "Trust in a mobile app is built through tone as much as flow. One reassuring sentence in the claim wizard does more than visual polish. Designing for someone mid-accident means defaulting to calm, guided, low-friction screens instead of dense information.",
-            ],
-          },
-        ],
-      },
-    ],
-  },
-  {
     slug: "api-gateway",
+    outcome: "Partner onboarding in under 3 minutes, 5+ partners live",
     title: "Rex API Gateway",
     year: "2025",
     category: "Enterprise · API platform",
@@ -381,7 +220,173 @@ export const projects: Project[] = [
     ],
   },
   {
+    slug: "rex-insurance",
+    outcome: "+30% completed transactions on the redesigned website",
+    title: "Rex Insurance",
+    year: "2025 — Now",
+    category: "Insurance · Mobile",
+    summary:
+      "The official Rex Insurance app. Policies, claims and renewals in a few calm taps, for people who have never read a policy document.",
+    headline:
+      "Leading design on Rex Insurance's mobile app: buying cover, filing claims and renewing, without calling an agent.",
+    glance: {
+      challenge:
+        "Insurance ran on agents and paperwork. Customers couldn't see what they were covered for, renewals lapsed silently, and claims were a black box.",
+      role: "Led end-to-end design of the official mobile app: flows, UI, design system, accessibility, and the documentation engineering built from.",
+      impact: "The app shipped with WCAG 2.1 accessibility and a full documentation set. On the redesigned public website, completed transactions rose 30% and drop-off fell 25%.",
+    },
+    scope: ["Product design", "Mobile app", "Design system"],
+    tags: ["UX", "UI", "Mobile", "WCAG 2.1"],
+    meta: [
+      { k: "Role", v: "Lead product designer" },
+      { k: "Company", v: "Rex Insurance" },
+      { k: "Timeline", v: "May 2025 — now" },
+      { k: "Platform", v: "iOS & Android" },
+      { k: "Status", v: "Shipped, iterating" },
+    ],
+    cover: "rex-cover-clean.jpg",
+    sections: [
+      {
+        label: "Overview",
+        title: "Insurance people can run themselves",
+        blocks: [
+          {
+            type: "text",
+            body: [
+              "Most people deal with their insurer twice: when they buy cover and when something goes wrong. Both moments used to be paper-heavy and routed through an agent on the phone.",
+              "I led the end-to-end design of the Rex Insurance mobile app, covering onboarding, policy purchase, claims and account management, alongside a redesign of the public website.",
+            ],
+          },
+        ],
+      },
+      {
+        label: "Problem",
+        title: "Opaque, agent-driven and easy to lapse",
+        blocks: [
+          {
+            type: "text",
+            body: [
+              "Customers rarely understood what they were covered for or how to file a claim. Renewals lapsed silently, claim documents got lost in WhatsApp threads, and people often learned what their plan excluded at the worst possible moment.",
+            ],
+          },
+          {
+            type: "cards",
+            items: [
+              { title: "Jargon-heavy policies", body: "Coverage and exclusions buried in PDFs nobody reads." },
+              { title: "Claims as a black box", body: "No idea who is reviewing a claim, what stage it is at, or how long it will take." },
+              { title: "Silent renewals", body: "Policies lapse without warning, discovered only at claim time." },
+              { title: "Agent dependency", body: "Even updating a phone number needed a call or an email." },
+            ],
+          },
+        ],
+      },
+      {
+        label: "Goals",
+        title: "What the app had to do",
+        blocks: [
+          {
+            type: "goals",
+            items: [
+              "Buy a policy end to end on mobile in under five minutes.",
+              "Make what's covered, and what isn't, readable at a glance.",
+              "Guide claims step by step, with photo upload and visible status.",
+              "Surface renewals and open claims on the home screen so nothing lapses.",
+              "Scale to health, auto, gadget and travel cover from day one.",
+            ],
+          },
+        ],
+      },
+      {
+        label: "Flow",
+        title: "Sign-up that verifies, then gets out of the way",
+        blocks: [
+          {
+            type: "text",
+            body: [
+              "Returning policyholders verify with phone and OTP and land on their dashboard. New customers complete KYC, set a password and buy their first policy. A failed OTP offers resend and loops back into verification.",
+            ],
+          },
+          { type: "images", layout: "wide", items: [{ image: "rex-insurance-signup-flow.png", caption: "Sign-up and onboarding flow" }] },
+        ],
+      },
+      {
+        label: "Final design",
+        title: "Active cover first, everything else one tap away",
+        blocks: [
+          {
+            type: "images",
+            layout: "phones",
+            items: [
+              { image: "rex-insurance-home-screen.png", caption: "Home: active policies, renewal countdowns and in-progress claims." },
+              { image: "rex-insurance-new-policy.png", caption: "New policy: browse cover types, with guidance when unsure." },
+              { image: "rex-insurance-claims.png", caption: "Claims: every claim, filterable by status, with payouts." },
+              { image: "rex-insurance-my-policies.png", caption: "My policies: active, renewal-due and expired, with quick actions." },
+            ],
+          },
+          {
+            type: "images",
+            layout: "phones",
+            items: [
+              { image: "rex-insurance-policy-details.png", caption: "Policy detail with documents, agent contact and a one-tap claim." },
+              { image: "rex-insurance-payment.png", caption: "Payments: history, premium breakdown and references." },
+              { image: "rex-insurance-track-claims.png", caption: "Claim tracking with a timeline and incident details." },
+              { image: "rex-insurance-sign-up.png", caption: "Sign-up: three fields and a clear next step." },
+            ],
+          },
+        ],
+      },
+      {
+        label: "Decisions",
+        title: "The choices that shaped it",
+        blocks: [
+          {
+            type: "cards",
+            items: [
+              { title: "Lead with active cover, not marketing", body: "Home shows what you own and what needs attention. New products sit one tap away, never front and centre." },
+              { title: "Plain language everywhere", body: "Every policy detail is rewritten in human terms. Formal wording is available on tap, never the default." },
+              { title: "A claim wizard with visible progress", body: "Short steps and a progress bar, so nobody feels lost in the middle of an incident." },
+              { title: "Renewals as service, not upsell", body: "Renewal notices read as quiet service messages, kept structurally apart from anything promotional." },
+            ],
+          },
+        ],
+      },
+      {
+        label: "Impact",
+        title: "Results",
+        blocks: [
+          {
+            type: "stats",
+            items: [
+              { value: "+30%", label: "Completed transactions on the redesigned public website" },
+              { value: "−25%", label: "Drop-off on the redesigned public website" },
+              { value: "WCAG 2.1", label: "Accessibility applied across product screens" },
+            ],
+          },
+          {
+            type: "text",
+            body: [
+              "The app shipped with a full documentation set: feature list, user guide, feature deck and annotated screens, so product, engineering and stakeholders worked from the same source.",
+            ],
+          },
+        ],
+      },
+      {
+        label: "Reflection",
+        title: "Insurance is a trust product",
+        blocks: [
+          {
+            type: "text",
+            body: [
+              "Trust in a mobile app is built through tone as much as flow. One reassuring sentence in the claim wizard does more than visual polish. Designing for someone mid-accident means defaulting to calm, guided, low-friction screens instead of dense information.",
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  {
     slug: "losode",
+    outcome: "~70% more designers onboarded after the rebuild",
     title: "Losode",
     year: "2022 — 2024",
     category: "Marketplace · Web",
@@ -393,7 +398,7 @@ export const projects: Project[] = [
       challenge:
         "A live marketplace with wildly inconsistent vendor photos and data had to feel premium and trustworthy to buyers at home and in the diaspora.",
       role: "Lead designer across 30+ buyer and seller screens and the component system behind them, working directly with the founder and dev team.",
-      impact: "Shipped at losode.com. User retention rose 25% after the rebuild, and new designers onboard into templated storefronts.",
+      impact: "Shipped at losode.com. About 70% more designers onboarded after the rebuild, each into a templated storefront instead of bespoke design work.",
     },
     scope: ["Product design", "Design system", "Web & mobile"],
     tags: ["UX", "UI", "Commerce", "Design system"],
@@ -448,7 +453,7 @@ export const projects: Project[] = [
           {
             type: "cards",
             items: [
-              { title: "Mobile is the product", body: "Over 80% of buyer sessions arrive on a phone. Every flow is designed phone-first." },
+              { title: "Mobile is the product", body: "Buyers browse and pay on their phones, so every flow is designed phone-first." },
               { title: "Trust is earned per screen", body: "Verification, ratings and delivery signals are ambient, not hidden on an About page." },
               { title: "Browse like a magazine, buy like a list", body: "Discovery wants editorial. Conversion wants ruthless filters and clean product pages." },
               { title: "Sellers need verbs, not dashboards", body: "They open the platform to ship, restock and reply, not to read charts." },
@@ -503,7 +508,7 @@ export const projects: Project[] = [
           {
             type: "stats",
             items: [
-              { value: "+25%", label: "User retention after the rebuild" },
+              { value: "~70%", label: "More designers onboarded after the rebuild" },
               { value: "30+", label: "Buyer and seller surfaces designed and handed off" },
               { value: "1", label: "Unified component library powering every screen" },
             ],
@@ -532,6 +537,7 @@ export const projects: Project[] = [
   },
   {
     slug: "divvy",
+    outcome: "6 of 6 testers created a split in under 35 seconds",
     title: "Divvy",
     year: "2025",
     category: "Fintech · Mobile",
@@ -553,7 +559,7 @@ export const projects: Project[] = [
       { k: "Platform", v: "iOS & Android" },
       { k: "Tools", v: "Figma, FigJam, Maze" },
     ],
-    cover: "divvy-preview.png",
+    cover: "divvy-cover-clean.jpg",
     sections: [
       {
         label: "Overview",
