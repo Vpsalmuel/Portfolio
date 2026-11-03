@@ -70,7 +70,7 @@ export const projects: Project[] = [
           {
             type: "text",
             body: [
-              "Rex sells insurance through partners: companies that embed cover in their own products. To do that they need Rex's APIs, and getting a partner connected used to be a manual project.",
+              "Rex sells insurance through partners, companies that embed cover in their own products: a fintech platform, broker platforms, two banks and a microfinance platform. To do that they need Rex's APIs, and getting a partner connected used to be a manual project.",
               "I designed the API gateway that turned it into a product: an admin portal where Rex's team onboards partners, assigns API access and watches traffic, and a partner portal where each partner gets keys, documentation, a live testing console and their own analytics.",
             ],
           },
@@ -84,7 +84,7 @@ export const projects: Project[] = [
           {
             type: "text",
             body: [
-              "Before the gateway, a partner filled in an onboarding form, then the real work happened over email: developers sent credentials and documentation by hand, answered questions thread by thread, and wired up each integration themselves.",
+              "Before the gateway, a partner sent an email, received a form, and the form went through several levels of verification. Then the real work happened over email: developers sent credentials and documentation by hand, answered questions thread by thread, and wired up each integration themselves. When a partner needed something, the request travelled through the customer team before it reached a developer.",
             ],
           },
           {
@@ -105,7 +105,7 @@ export const projects: Project[] = [
           {
             type: "text",
             body: [
-              "The brief was one line: design an API gateway portal. There was no product requirements document, and it was the first developer platform I had designed.",
+              "It was my first project at Rex, and the brief was one line: we want an API gateway platform to onboard our partners, go and build it. There was no product requirements document, no research budget, two months to design it, and it was the first developer platform I had designed.",
             ],
           },
           {
@@ -115,6 +115,8 @@ export const projects: Project[] = [
               { title: "No requirements document", body: "I wrote the scope myself from that research: what an admin must control, what a partner must be able to do alone, and what both sides need to see." },
               { title: "Users outside the building", body: "Most users are partners at other companies, so I couldn't simply walk over and ask. Every chance to talk to them, and every test with them, had to count." },
               { title: "Two products in one", body: "The admin and partner portals serve different people with different goals, but had to feel like one system and share the same data." },
+              { title: "No research budget", body: "Research meant desk research and studying existing gateways on my own time, then testing in-house instead of with a recruited panel." },
+              { title: "Two months to design", body: "Both portals had to be designed in two months, so some partner-side features I wanted were cut to make the deadline." },
             ],
           },
         ],
@@ -207,12 +209,13 @@ export const projects: Project[] = [
       },
       {
         label: "Iteration",
-        title: "Designed with partners, not just for them",
+        title: "Testing for friction before partners felt it",
         blocks: [
           {
             type: "text",
             body: [
-              "The first version of onboarding didn't survive contact with real partners. We tested it with them, listened to where they got stuck, and reworked the onboarding flow before rollout.",
+              "With partners hard to reach, most testing and iteration happened in-house: we walked through every flow as a partner would, looking for where they'd get stuck. My first draft wasn't approved. After each round of feedback some pages were redesigned, some features removed and others added, until onboarding felt easy.",
+              "When partners came on board, the issues that showed up were APIs failing on the engineering side, not people getting lost in the flow.",
               "The result I'm proudest of is the quiet one: partners started using the platform and it didn't break.",
             ],
           },
@@ -230,8 +233,12 @@ export const projects: Project[] = [
                 body: "Most screens had two or more directions. I kept the one that answered a single question: can someone land here and know where to go next? Manage Users is an example. The version I kept puts every partner, their usage and status in one table, instead of spreading it across pages.",
               },
               {
-                title: "Holding the line with my manager",
-                body: "Some designs got pushback from my manager. I walked him through why each route made the platform easier for partners to use, and held firm on that standard where it mattered, because a confusing gateway sends partners straight back to email.",
+                title: "Admin onboarding over self sign-up",
+                body: "We considered letting partners sign themselves up. We chose to have Rex's team onboard them instead: a partner shows interest through the website, Rex vets them, and they receive a login with a temporary password to change on first sign-in. It removes a whole step for the partner and keeps vetting with Rex.",
+              },
+              {
+                title: "Feedback, round after round",
+                body: "Each iteration went back for review. I explained why each route made the platform easier for partners, and took the feedback seriously: pages were redesigned and features added or cut until the flows held up.",
               },
             ],
           },
@@ -252,8 +259,8 @@ export const projects: Project[] = [
           {
             type: "text",
             body: [
-              "How it was measured: before launch, onboarding a partner meant forms, email threads and a developer wiring the integration by hand. Now Rex's team only needs a partner's name and the APIs they should access, and the partner is set up on the platform. Since launch, five more partners have been onboarded this way.",
-              "With keys, docs and testing self-serve, the team saw fewer support tickets, fewer emails and faster responses when issues did come up, because both sides can see the same traffic and errors.",
+              "How it was measured: before, onboarding meant an email, a form and several levels of verification, then developers wiring the integration by hand. Now a partner shows interest on the website, Rex vets them, and setting them up on the platform takes under three minutes: a name and the APIs they can access. Since launch, five more partners have been onboarded this way, across fintech, broking, banking and microfinance.",
+              "Support changed too. Partner requests used to go through the customer team before reaching a developer. Now partners raise them in the portal and they go straight to the engineers, so there are fewer support tickets, fewer emails and faster fixes.",
             ],
           },
         ],
@@ -265,7 +272,8 @@ export const projects: Project[] = [
           {
             type: "text",
             body: [
-              "Next, I'd watch how partners actually use the platform and run usability tests on the key tasks: finding an API, reading the docs, testing a call. I'd log every point of friction, rank them, and fix the biggest ones first. A gateway is never finished. Each new partner is a chance to make it easier for the next.",
+              "Next, I'd watch how partners actually use the platform and run usability tests on the key tasks: finding an API, reading the docs, testing a call. I'd log every point of friction, rank them, and fix the biggest ones first.",
+              "Then the features the deadline cut: a feedback channel inside the partner portal, richer documentation, and automation, including AI, for the repetitive work on both sides. A gateway is never finished. Each new partner is a chance to make it easier for the next.",
             ],
           },
         ],
@@ -295,7 +303,7 @@ export const projects: Project[] = [
       { k: "Company", v: "Rex Insurance" },
       { k: "Timeline", v: "May 2025 — now" },
       { k: "Platform", v: "iOS & Android" },
-      { k: "Status", v: "Shipped, iterating" },
+      { k: "Status", v: "Live on App Store & Google Play" },
     ],
     cover: "rex-cover-clean.jpg",
     sections: [
@@ -307,7 +315,7 @@ export const projects: Project[] = [
             type: "text",
             body: [
               "Most people deal with their insurer twice: when they buy cover and when something goes wrong. Both moments used to be paper-heavy and routed through an agent on the phone.",
-              "I led the end-to-end design of the Rex Insurance mobile app, covering onboarding, policy purchase, claims and account management, alongside a redesign of the public website.",
+              "Rex already had an app when I joined, but it didn't do what the business needed: the UI was outdated and the experience got in the way. I redesigned it end to end within Rex's existing brand guide, covering onboarding, policy purchase, claims and account management, alongside a redesign of the public website.",
             ],
           },
         ],
@@ -329,6 +337,18 @@ export const projects: Project[] = [
               { title: "Claims as a black box", body: "No idea who is reviewing a claim, what stage it is at, or how long it will take." },
               { title: "Silent renewals", body: "Policies lapse without warning, discovered only at claim time." },
               { title: "Agent dependency", body: "Even updating a phone number needed a call or an email." },
+            ],
+          },
+        ],
+      },
+      {
+        label: "Research",
+        title: "Asking the people who talk to customers",
+        blocks: [
+          {
+            type: "text",
+            body: [
+              "My first drafts came from design principles. After every iteration we took the flows to the teams who deal with customers every day, underwriting, claims and customer support, and asked how their work actually runs. What they told us reshaped the purchase, claims-tracking and onboarding flows.",
             ],
           },
         ],
@@ -399,6 +419,9 @@ export const projects: Project[] = [
               { title: "Plain language everywhere", body: "Every policy detail is rewritten in human terms. Formal wording is available on tap, never the default." },
               { title: "A claim wizard with visible progress", body: "Short steps and a progress bar, so nobody feels lost in the middle of an incident." },
               { title: "Renewals as service, not upsell", body: "Renewal notices read as quiet service messages, kept structurally apart from anything promotional." },
+              { title: "Fewer steps to buy", body: "Underwriting showed us steps customers didn't need, so we merged them, and the app pulls customer details from their NIN instead of asking them to type everything." },
+              { title: "A separate path for existing customers", body: "People who already hold Rex policies can't be onboarded like strangers. Their policies are found and brought into the app, so day one starts with what they already own." },
+              { title: "Feedback and rewards", body: "Stakeholders asked for in-app feedback and a reward for every purchase. Both went in, placed so they never compete with active cover on the home screen." },
             ],
           },
         ],
@@ -418,7 +441,8 @@ export const projects: Project[] = [
           {
             type: "text",
             body: [
-              "The app shipped with a full documentation set: feature list, user guide, feature deck and annotated screens, so product, engineering and stakeholders worked from the same source.",
+              "How the website numbers were measured: Google Analytics, comparing the last month of the old website with the first month after the new one launched in October. A transaction is a retail policy (motor and other standard cover) bought end to end through the new purchase flow; quoted products still go through customer care. One month is an early read, and I'm tracking it as more data comes in.",
+              "The app is live on the App Store and Google Play. It shipped with a design system and a full documentation set: feature list, user guide, feature deck and annotated screens. The development team uses the design system as the source of truth for everything built on the platform.",
             ],
           },
         ],
@@ -430,7 +454,9 @@ export const projects: Project[] = [
           {
             type: "text",
             body: [
-              "Trust in a mobile app is built through tone as much as flow. One reassuring sentence in the claim wizard does more than visual polish. Designing for someone mid-accident means defaulting to calm, guided, low-friction screens instead of dense information.",
+              "Design isn't what's in my head. It's what the people who use it, and the teams who serve them, need. The underwriting, claims and support teams changed more of this app than any principle I started with.",
+              "Trust in a mobile app is built through tone as much as flow. One reassuring sentence in the claim wizard does more than visual polish.",
+              "Next, I'd test how the app behaves when someone has several claims open at once, and how it connects with the tools customers already use, like WhatsApp.",
             ],
           },
         ],
@@ -582,6 +608,7 @@ export const projects: Project[] = [
             type: "text",
             body: [
               "A full platform redesign is a different discipline from a single feature: the deliverable is consistency over time, across thirty-plus screens and a business that evolves while you design it. Working without a formal brief, the strongest decisions came from listening to the founder and translating what I heard into a system.",
+              "It also taught me my biggest lesson. Early on I designed features with nowhere for their data to come from, like a count of items that no part of the platform actually recorded. Losode has four connected products: the customer app, the seller app and an admin for each. Nothing works in isolation. What a customer does has to feed the admin, so I now map where every number comes from before I design the screen that shows it.",
             ],
           },
         ],

@@ -35,6 +35,7 @@ export const about = {
   body: [
     "I'm a product designer in Lagos. At Rex Insurance I lead design on the mobile app, the public website, and the internal platforms behind them: a multi-portal API gateway for brokers and partners, a broker portal, and HR tools.",
     "Before that I redesigned a mobile betting product at Techaven and rebuilt losode.com, a pan-African fashion marketplace, from the ground up.",
+    "I also mentor. Under my guidance, a junior developer at Rex designed a visitor management system that tracks incoming and outgoing visitors and lets staff schedule visits.",
     "I care about the handover as much as the screens. Every project ships with annotated decks, user guides and specs, so engineering builds what was designed.",
   ],
 };
