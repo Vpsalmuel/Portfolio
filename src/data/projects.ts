@@ -286,13 +286,13 @@ export const projects: Project[] = [
   {
     slug: "rex-insurance",
     outcome: "+30% completed transactions on the redesigned website",
-    title: "Rex Insurance",
+    title: "Rex App — RexVerse",
     year: "2025 — Now",
     category: "Insurance · Mobile",
     summary:
-      "The official Rex Insurance app. Policies, claims and renewals in a few calm taps, for people who have never read a policy document.",
+      "RexVerse, the official Rex Insurance app. Policies, claims and renewals in a few calm taps, for people who have never read a policy document.",
     headline:
-      "Leading design on Rex Insurance's mobile app: buying cover, filing claims and renewing, without calling an agent.",
+      "Leading design on RexVerse, Rex Insurance's mobile app: buying cover, filing claims and renewing, without calling an agent.",
     glance: {
       challenge:
         "Insurance ran on agents and paperwork. Customers couldn't see what they were covered for, renewals lapsed silently, and claims were a black box.",

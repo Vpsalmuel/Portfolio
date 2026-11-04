@@ -74,7 +74,7 @@ export const services = [
     title: "Product design, end to end",
     body: "From a messy brief to shipped screens: research, flows, UI and the decisions in between, for products people rely on.",
     deliverables: ["Research & flows", "UI design", "Prototypes"],
-    proof: { label: "Rex Insurance app", slug: "rex-insurance" },
+    proof: { label: "RexVerse app", slug: "rex-insurance" },
   },
   {
     title: "Enterprise & B2B platforms",
@@ -98,7 +98,7 @@ export const services = [
     title: "UX writing & handover",
     body: "Plain-language interfaces, plus the annotated screens, user guides and specs that make sure engineering builds what was designed.",
     deliverables: ["Microcopy", "Specs", "User guides"],
-    proof: { label: "Rex Insurance app", slug: "rex-insurance" },
+    proof: { label: "RexVerse app", slug: "rex-insurance" },
   },
 ];
 
