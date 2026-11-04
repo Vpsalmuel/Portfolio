@@ -105,7 +105,8 @@ function initReveals() {
 let parallax: HTMLElement[] = [];
 let drift: HTMLElement[] = [];
 let bar: HTMLElement | null = null;
-// [data-stack] cards: the one being covered by the next shrinks and dims
+// [data-stack] cards: the one being covered by the next shrinks and dims.
+// data-stack="0.12" sets how far it shrinks (default 0.05).
 let stack: HTMLElement[] = [];
 const wide = matchMedia("(min-width: 761px)");
 
@@ -130,7 +131,8 @@ const update = () => {
     const inner = stack[i].firstElementChild as HTMLElement | null;
     if (!inner) continue;
     const next = stack[i + 1];
-    if (!next || !wide.matches) {
+    // data-stack-all also runs on phones; the rest only on larger screens
+    if (!next || (!wide.matches && !("stackAll" in stack[i].dataset))) {
       inner.style.scale = "";
       inner.style.filter = "";
       continue;
@@ -138,7 +140,7 @@ const update = () => {
     const r = stack[i].getBoundingClientRect();
     const n = next.getBoundingClientRect();
     const p = Math.min(1, Math.max(0, (r.bottom - n.top) / r.height)); // 0 → 1 as the next card covers it
-    inner.style.scale = String(1 - p * 0.05);
+    inner.style.scale = String(1 - p * (Number(stack[i].dataset.stack) || 0.05));
     inner.style.filter = p > 0 ? `brightness(${1 - p * 0.45})` : "";
   }
   if (bar) {

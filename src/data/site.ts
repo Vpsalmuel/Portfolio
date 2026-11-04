@@ -31,7 +31,7 @@ export const stats = [
 
 export const about = {
   statement:
-    "I take complex, high-stakes workflows and turn them into products people trust, then hand them over so engineering builds exactly what was designed.",
+    "I take complex ideas and turn them into products and services that solve real problems, and that people actually enjoy using.",
   body: [
     "I'm a product designer in Lagos. At Rex Insurance I lead design on the mobile app, the public website, and the internal platforms behind them: a multi-portal API gateway for brokers and partners, a broker portal, and HR tools.",
     "Before that I redesigned a mobile betting product at Techaven and rebuilt losode.com, a pan-African fashion marketplace, from the ground up.",
