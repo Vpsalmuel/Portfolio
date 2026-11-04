@@ -108,6 +108,9 @@ let bar: HTMLElement | null = null;
 // [data-stack] cards: the one being covered by the next shrinks and dims.
 // data-stack="0.12" sets how far it shrinks (default 0.05).
 let stack: HTMLElement[] = [];
+// [data-hstack] sections: pinned while you scroll through them; their .svc-card children slide in
+// from the right and stack on the left, and the card being covered shrinks and dims.
+let hstacks: HTMLElement[] = [];
 const wide = matchMedia("(min-width: 761px)");
 
 const update = () => {
@@ -131,8 +134,7 @@ const update = () => {
     const inner = stack[i].firstElementChild as HTMLElement | null;
     if (!inner) continue;
     const next = stack[i + 1];
-    // data-stack-all also runs on phones; the rest only on larger screens
-    if (!next || (!wide.matches && !("stackAll" in stack[i].dataset))) {
+    if (!next || !wide.matches) {
       inner.style.scale = "";
       inner.style.filter = "";
       continue;
@@ -142,6 +144,26 @@ const update = () => {
     const p = Math.min(1, Math.max(0, (r.bottom - n.top) / r.height)); // 0 → 1 as the next card covers it
     inner.style.scale = String(1 - p * (Number(stack[i].dataset.stack) || 0.05));
     inner.style.filter = p > 0 ? `brightness(${1 - p * 0.45})` : "";
+  }
+  for (const sec of hstacks) {
+    const cards = Array.from(sec.querySelectorAll<HTMLElement>(".svc-card"));
+    const n = cards.length;
+    if (n < 2) continue;
+    const r = sec.getBoundingClientRect();
+    if (r.bottom < 0 || r.top > vh) continue;
+    const scrollable = sec.offsetHeight - vh;
+    const t = Math.min(1, Math.max(0, -r.top / scrollable)) * (n - 1); // 0 → n-1, one step per card
+    const step = cards[1].offsetLeft - cards[0].offsetLeft; // card width + gap
+    const peek = wide.matches ? 18 : 10; // how much of each stacked card stays visible
+    cards.forEach((card, i) => {
+      const x = Math.max(i * peek, (i - t) * step) - i * step;
+      card.style.transform = `translate3d(${x.toFixed(1)}px, 0, 0)`;
+      const inner = card.firstElementChild as HTMLElement | null;
+      if (!inner) return;
+      const covered = i < n - 1 ? Math.min(1, Math.max(0, t - i)) : 0;
+      inner.style.scale = covered ? String(1 - covered * 0.12) : "";
+      inner.style.filter = covered ? `brightness(${1 - covered * 0.45})` : "";
+    });
   }
   if (bar) {
     const max = document.documentElement.scrollHeight - vh;
@@ -166,5 +188,7 @@ document.addEventListener("astro:page-load", () => {
   drift = Array.from(document.querySelectorAll<HTMLElement>("[data-drift]"));
   bar = document.querySelector<HTMLElement>(".progress");
   stack = Array.from(document.querySelectorAll<HTMLElement>("[data-stack]"));
+  hstacks = reduced ? [] : Array.from(document.querySelectorAll<HTMLElement>("[data-hstack]"));
+  hstacks.forEach((sec) => sec.classList.add("svc-h"));
   if (!reduced) update();
 });
