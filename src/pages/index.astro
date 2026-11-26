@@ -546,13 +546,17 @@ const galleryLarge = await Promise.all(
   /* Intro and buttons sit directly under the name, left column (portrait is on the right) */
   .hero-foot {
     grid-column: 1 / 8;
-    grid-row: 2;
-    align-self: start;
+    /* spans to the bottom row so the buttons can sit at the foot of the hero */
+    grid-row: 2 / 4;
     position: relative;
     z-index: 3;
-    display: grid;
+    display: flex;
+    flex-direction: column;
     gap: 28px;
     margin-top: 36px;
+  }
+  .hero-foot .cta {
+    margin-top: auto;
   }
   .intro {
     max-width: 46ch;
@@ -1317,6 +1321,9 @@ const galleryLarge = await Promise.all(
       grid-row: 3;
       margin-top: 8px;
       gap: 22px;
+    }
+    .hero-foot .cta {
+      margin-top: 0;
     }
     .tag-block {
       right: 2%;
