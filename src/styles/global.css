@@ -267,6 +267,10 @@ p {
   /* room for descenders so g/p/y aren't clipped */
   padding-bottom: 0.08em;
   margin-bottom: -0.08em;
+  /* tight negative letter-spacing pulls the box in past the last glyph (the S of WORKS
+     was clipped), so give it side room and cancel that with negative margin */
+  padding-inline: 0.1em;
+  margin-inline: -0.1em;
   /* inline-blocks inherit text-indent, which would shift and clip each word */
   text-indent: 0;
 }
