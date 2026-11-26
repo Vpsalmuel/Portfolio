@@ -49,12 +49,12 @@ const galleryLarge = await Promise.all(
           loading="eager"
           fetchpriority="high"
         />
+        <span class="pill avail hero-in" style="--d:1.1s"><span class="dot"></span>{profile.availability}</span>
       </div>
 
       <div class="hero-foot">
         <p class="intro hero-in" style="--d:.7s">{profile.intro}</p>
         <div class="cta hero-in" style="--d:1s">
-          <span class="pill"><span class="dot"></span>{profile.availability}</span>
           <div class="cta-row">
             <a class="btn btn-solid" href="#contact">Get in touch <Arrow /></a>
             <a class="btn" href="#work">View work</a>
@@ -519,6 +519,15 @@ const galleryLarge = await Promise.all(
       linear-gradient(to bottom, #000 62%, transparent 96%),
       linear-gradient(to right, transparent 0, #000 14%, #000 86%, transparent 100%);
     mask-composite: intersect;
+  }
+  /* availability pill sits under the portrait, in the faded-out area at its foot */
+  .avail {
+    position: absolute;
+    left: 50%;
+    bottom: 72px;
+    translate: -50% 0;
+    white-space: nowrap;
+    z-index: 2;
   }
   .tag-block {
     position: absolute;
@@ -1311,6 +1320,9 @@ const galleryLarge = await Promise.all(
     }
     .tag-block {
       right: 2%;
+    }
+    .avail {
+      bottom: 4px;
     }
     .brands-in {
       flex-direction: column;
